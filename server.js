@@ -1,6 +1,26 @@
 const express = require('express');
 const app = express();
+// const {default:mongoose}= require("mongoose")
+// const Product = require('.models/products')
+// mongoose.connect('mongodb://0.0.0.0:27017/homedb',{useNewUriParser:true})
+// .then(()=>{
+//   console.log("mongo is connected");
+// }).catch(err=>{
+//   console.log("no connection");
+// })
+//start connection with mongoDB
 const port = 3000; 
+
+/////////make a addProduct page with post request
+
+//working with mongo
+/*Product.insertMany(arr)
+.then(res=>{
+console.log("items added")
+}).catch(e=>{
+  console.log(e)
+})
+*/
 
 const products = [
     { id:1,name: 'Product 1', description: 'Description 1', price: 10 },
@@ -16,7 +36,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-
+// add async before (req,res)
+//newproduct.save() saves it to our DB
 app.get('/', (req, res) => {
     res.render('home', { title: 'Home' });
   });
@@ -49,7 +70,6 @@ app.post('/login', (req, res) => {
       res.render('login', { title: 'Login Page', error: 'Invalid credentials' });
     }
   });
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
