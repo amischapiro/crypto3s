@@ -11,17 +11,6 @@ const app = express();
 //start connection with mongoDB
 const port = 3000; 
 
-/////////make a addProduct page with post request
-
-//working with mongo
-/*Product.insertMany(arr)
-.then(res=>{
-console.log("items added")
-}).catch(e=>{
-  console.log(e)
-})
-*/
-
 const products = [
     { id:1,name: 'Product 1', description: 'Description 1', price: 10 },
     { id:2,name: 'Product 2', description: 'Description 2', price: 20 },
