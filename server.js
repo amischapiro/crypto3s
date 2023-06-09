@@ -4,7 +4,8 @@ const port = 3000;
 
 const {default:mongoose}= require("mongoose")
 const Product = require('./models/product')
-mongoose.connect('mongodb+srv://royschwartz:Aa123456@crypto.tcprfjj.mongodb.net/crypto?retryWrites=true&w=majority')
+const mongoKey = require('./config')
+mongoose.connect(mongoKey)
 .then(()=>{
   console.log("mongo is connected");
 }).catch(err=>{
