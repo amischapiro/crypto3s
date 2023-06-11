@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-// const {default:mongoose}= require("mongoose")
-// const Product = require('.models/products')
-// mongoose.connect('mongodb://0.0.0.0:27017/homedb',{useNewUriParser:true})
-// .then(()=>{
-//   console.log("mongo is connected");
-// }).catch(err=>{
-//   console.log("no connection");
-// })
+//  const {default:mongoose}= require("mongoose")
+//  const Product = require('.models/products')
+//  mongoose.connect('mongodb://0.0.0.0:27017/crypto',{useNewUriParser:true})
+//  .then(()=>{
+//    console.log("mongo is connected");
+//  }).catch(err=>{
+//    console.log("no connection");
+//  })
 //start connection with mongoDB
 const port = 3000; 
 
@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-// add async before (req,res)
+ //add async before (req,res)
 //newproduct.save() saves it to our DB
 app.get('/', (req, res) => {
     res.render('home', { title: 'Home' });
