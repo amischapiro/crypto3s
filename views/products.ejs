@@ -18,6 +18,8 @@
               <h2><%= product.name %></h2>
               <p><%= product.description %></p>
               <p>Price: $<%= product.price %></p>
+              <input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
+              <button onclick="addToCart('<%= product._id %>')">Add to Cart</button>
               <a href="/product-info/<%= product._id %>">More Details</a>
             </div>
           <% }); %>
@@ -25,6 +27,7 @@
     </div>
     <%- include('partials/footer') %>
   </div>
+  <script src="/js/products.js"></script>
 </body>
 
 </html>
