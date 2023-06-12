@@ -1,13 +1,17 @@
 const express = require('express');
 const app = express();
+const axios = require('axios');
 const bodyParser = require('body-parser');
 const port = 3000;
 const userId = '648597c62d69a1b4375d2953' ////////////
+const config = require('./config')
+const googleKey = config.googleKey
+
 
 const {default:mongoose}= require("mongoose")
 const Product = require('./models/product')
 const User = require('./models/user')
-const mongoKey = require('./config')
+const mongoKey = config.mongoKey
 mongoose.connect(mongoKey)
 .then(()=>{
   console.log("mongo is connected");
@@ -24,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.render('home', { title: 'Home' });
+    res.render('home', { title: 'Home',googleKey });
   });
 app.get('/login', (req, res) => {
   res.render('login', { title: 'Login Page' });
@@ -107,6 +111,52 @@ app.post('/addProduct',(req,res)=>{
   console.log(req.body);
   // gets info from addProduct form
 })
+
+// app.get('/btc-rate', (req, res) => {
+//   const coinAPIKey = config.coinKey; 
+  
+//   axios
+//     .get('https://rest.coinapi.io/v1/exchangerate/BTC/USD', {
+//       headers: {
+//         'X-CoinAPI-Key': coinAPIKey,
+//       },
+//     })
+//     .then(response => {
+//       const btcRate = response.data.rate;
+//       // res.send(btcRate);
+//       res.status(200).send(btcRate.toString());
+//     })
+//     .catch(error => {
+//       console.log('Error:', error.message);
+//       res.status(500).send('Error fetching BTC rate');
+//     });
+// });
+app.get('/coin-rates', (req, res) => {
+  const btcRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+  const ethRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+  const dogeRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd');
+
+  Promise.all([btcRatePromise, ethRatePromise, dogeRatePromise])
+    .then(([btcResponse, ethResponse, dogeResponse]) => {
+      const btcRate = btcResponse.data.bitcoin.usd;
+      const ethRate = ethResponse.data.ethereum.usd;
+      const dogeRate = dogeResponse.data.dogecoin.usd;
+
+      const coinRates = {
+        bitcoin: btcRate,
+        ethereum: ethRate,
+        doge:dogeRate
+      };
+
+      res.json(coinRates);
+    })
+    .catch(error => {
+      console.log('Error:', error);
+      res.status(500).send('Failed to fetch coin rates');
+    });
+});
+
+
 
 // app.get('/cart', (req, res) => {
 //   User.find({ username: 'user1' })
