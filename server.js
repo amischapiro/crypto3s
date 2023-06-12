@@ -3,11 +3,13 @@ const app = express();
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const port = 3000;
-const userId = '648597c62d69a1b4375d2953' ////////////
+// const userId = '648597c62d69a1b4375d2953' ////////////
 const config = require('./config')
 const googleKey = config.googleKey
 
 
+//const userId = '648597c62d69a1b4375d2953' ////////////
+let userId;
 const {default:mongoose}= require("mongoose")
 const Product = require('./models/product')
 const User = require('./models/user')
@@ -31,7 +33,13 @@ app.get('/', (req, res) => {
     res.render('home', { title: 'Home',googleKey });
   });
 app.get('/login', (req, res) => {
-  res.render('login', { title: 'Login Page' });
+  let isusername = false
+  let isuserpassword = false
+  res.render('login', { title: 'Login Page',isusername,isuserpassword });
+});
+app.get('/signup', (req, res) => {
+  let isuser = false
+  res.render('signup', { title: 'signup Page',isuser});
 });
 
 app.get('/products', (req, res) => {
@@ -276,14 +284,66 @@ app.get('/order-history', (req, res) => {
   res.render('order-history', { title: 'Order History Page' });
 });
 
-app.post('/login', (req, res) => {
+
+app.post('/login',async (req, res) => {
+      const { username, password } = req.body;
+      let issignup;
+      let isusername;
+      let isuserpassword;
+      try {
+        const foundUser = await User.findOne({ username: username,password: password});
+        if (foundUser)
+         {
+          issignup = true;
+          userId = foundUser._id
+          res.redirect('/');
+         }
+         else
+       {
+          const foundUserName = await User.findOne({ username: username });
+         if (!foundUserName)
+        {
+          isusername = true;
+          res.render('login', { title: 'login Page', isusername,username,isuserpassword });
+        }
+        else 
+        {
+          isuserpassword = true;
+          res.render('login', { title: 'login Page', isuserpassword,username,isusername });
+        }
+       } 
+       }
+      catch (error) {
+        console.error(error);
+        res.redirect('/error');
+      }
+    });
+
+
+
+  app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
-    if (username === 'admin' && password === '123') {
-      res.redirect('/products');
-    } else {
-      res.render('login', { title: 'Login Page', error: 'Invalid credentials' });
+    let isuser;
+    try {
+      const foundUser = await User.findOne({ username: username });
+  
+      if (foundUser) {
+        isuser = true;
+        res.render('signup', { title: 'signup Page', isuser,username });
+      } else {
+        const newUser = new User({
+          username: username,
+          password: password
+        });
+        await newUser.save();
+        res.redirect('/login');
+      }
+    } catch (error) {
+      console.error(error);
+      res.redirect('/error');
     }
   });
+  
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

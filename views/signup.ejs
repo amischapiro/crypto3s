@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/styles.css"> 
-    <link rel="stylesheet" href="css/login.css"> 
+    <link rel="stylesheet" href="css/styles.css">
     <title><%= title %></title>
 </head>
 <body>
-           <% if (isusername) { %>
-            <h3>User <%=username%> does not exist.</h3>
-           <% } %>
+    <% if (isuser) { %>
+        <h3>User <%=username%> already exists.</h3>
+    <% } %>
 
-           <% if (isuserpassword) { %>
-
-            <h3>pasworrd does not match.</h3>
-           <% } %>
-            <form action="/login" method="POST">
+            <form action="/signup" method="POST">
               <label for="username">Username:</label>
               <input type="text" id="username" name="username" autocomplete="off" required><br>
           
               <label for="password">Password:</label>
               <input type="password" id="password" name="password" autocomplete="off" required><br>
-              <button type="submit">Login</button>
+              <button type="submit">signup</button>
             </form>
+
 </body>
 </html>
 
