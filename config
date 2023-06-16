@@ -1,2 +1,0 @@
-const mongoKey = 'mongodb+srv://royschwartz:Aa123456@crypto.tcprfjj.mongodb.net/crypto?retrywrites=true&w=majority'
-module.exports = mongoKey

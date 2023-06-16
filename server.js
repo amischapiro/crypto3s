@@ -1,15 +1,16 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
+// const http = require('http').createServer(app);
+// const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const port = 3000;
-// const userId = '648597c62d69a1b4375d2953' ////////////
 const config = require('./config')
+const coinFetch = require('./services/home')
 const googleKey = config.googleKey
-
-
-//const userId = '648597c62d69a1b4375d2953' ////////////
 let userId;
+// let currUserName = 'unknown'
 const {default:mongoose}= require("mongoose")
 const Product = require('./models/product')
 const User = require('./models/user')
@@ -21,16 +22,24 @@ mongoose.connect(mongoKey)
   console.log("no connection",err);
 })
 
+// io.on('connection', (socket) => {
+//   console.log('A user connected');
 
+
+//   socket.on('disconnect', () => {
+//     console.log('A user disconnected');
+//   });
+// });
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
-    res.render('home', { title: 'Home',googleKey });
+    res.render('home', { title: 'Home',googleKey});
   });
 app.get('/login', (req, res) => {
   let isusername = false
@@ -56,19 +65,14 @@ app.post('/cart/add/:productId', (req, res) => {
   const productId = req.params.productId;
   const quantity = req.body.quantity;
   
-  
-  
-  // Add the product to the user's cart
-  User.findById(userId)
+  const currUserName = req.cookies.username    
+  User.findOne({username:currUserName})
     .then(user => {
       if (user) {
-        // Check if the product already exists in the cart
         const existingProduct = user.cart.find(item => item.productId == productId);          
         if (existingProduct) {
-          // If the product already exists, increase the quantity
           existingProduct.quantity += parseInt(quantity) ;
         } else {
-          // If the product doesn't exist, add it to the cart
           user.cart.push({ productId, quantity });
           
         }
@@ -79,7 +83,6 @@ app.post('/cart/add/:productId', (req, res) => {
       }
     })
     .then(updatedUser => {
-      // console.log('Product added to cart:', updatedUser);
       res.sendStatus(200);
     })
     .catch(error => {
@@ -139,30 +142,48 @@ app.post('/addProduct',(req,res)=>{
 //       res.status(500).send('Error fetching BTC rate');
 //     });
 // });
+
 app.get('/coin-rates', (req, res) => {
-  const btcRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-  const ethRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-  const dogeRatePromise = axios.get('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd');
+  const coins = ['bitcoin', 'ethereum', 'dogecoin', 'solana', 'binancecoin', 'cardano', 'ripple'];
+  const vsCurrency = 'usd';
+  
+  const url = `https://api.coingecko.com/api/v3/coins/markets?ids=${coins.join(',')}&vs_currency=${vsCurrency}&include_24hr_change=true`;
 
-  Promise.all([btcRatePromise, ethRatePromise, dogeRatePromise])
-    .then(([btcResponse, ethResponse, dogeResponse]) => {
-      const btcRate = btcResponse.data.bitcoin.usd;
-      const ethRate = ethResponse.data.ethereum.usd;
-      const dogeRate = dogeResponse.data.dogecoin.usd;
+  axios.get(url)
+    .then(response => {
+      const coinData = response.data.map(coin => {
+        return {
+          id: coin.id,
+          symbol: coin.symbol,
+          rate: coin.current_price,
+          volume_24h: coin.total_volume,
+          change_24h: coin.price_change_percentage_24h
+        };
+      });
 
-      const coinRates = {
-        bitcoin: btcRate,
-        ethereum: ethRate,
-        doge:dogeRate
-      };
+      const coinRates = {};
+      coinData.forEach(coin => {
+        coinRates[coin.id] = {
+          rate: coin.rate,
+          symbol: coin.symbol,
+          volume_24h: coin.volume_24h,
+          change_24h: coin.change_24h
+        };
+      });
 
+      // io.emit('coinRates', coinRates);
       res.json(coinRates);
     })
+
+   
+
     .catch(error => {
       console.log('Error:', error);
       res.status(500).send('Failed to fetch coin rates');
     });
+
 });
+
 
 
 
@@ -193,7 +214,9 @@ app.get('/coin-rates', (req, res) => {
 // });
 app.get('/cart', async (req, res) => {
   try {
-    const user = await User.findOne({ username: 'user1' });
+    
+    const currUserName = req.cookies.username    
+    const user = await User.findOne({ username: currUserName });
     if (user) {
       const cartItems = [];
       for (const cartItem of user.cart) {
@@ -207,7 +230,7 @@ app.get('/cart', async (req, res) => {
         }
       }
       
-      res.render('cart', { title: 'Cart Page', cartItems });
+      res.render('cart', { title: 'Cart Page', cartItems,currUserName });
     } else {
       console.log('User not found');
     }
@@ -219,7 +242,8 @@ app.get('/cart', async (req, res) => {
 app.put('/cart/:itemId', (req, res) => {
   const itemId = req.params.itemId;
   const quantity = req.body.quantity;
-  User.findById(userId)
+  const currUserName = req.cookies.username    
+  User.findOne({username:currUserName})
   .then(user => {
     if (user) {
       
@@ -239,6 +263,7 @@ app.put('/cart/:itemId', (req, res) => {
   .then(updatedUser => {
     console.log('Quantity updated successfully:', updatedUser);
     res.sendStatus(200);
+    // res.redirect('/cart')
   })
   .catch(error => {
     console.error('Error updating quantity:', error);
@@ -249,13 +274,12 @@ app.put('/cart/:itemId', (req, res) => {
 
 app.delete('/cart/:itemId', (req, res) => {
   const itemId = req.params.itemId;
-  User.findById(userId)
+  const currUserName = req.cookies.username    
+  User.findOne({username:currUserName})
     .then(user => {
       if (user) {
-        // Find the index of the item with the given itemId in the cart
         const itemIndex = user.cart.findIndex(item => item.productId.toString() === itemId);
         if (itemIndex !== -1) {
-          // Remove the item from the cart
           user.cart.splice(itemIndex, 1);
           return user.save();
         } else {
@@ -296,6 +320,8 @@ app.post('/login',async (req, res) => {
          {
           issignup = true;
           userId = foundUser._id
+          // currUserName = foundUser.username
+          res.cookie('username',foundUser.username);
           res.redirect('/');
          }
          else

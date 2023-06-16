@@ -1,3 +1,23 @@
+$(document).ready(function () {
+  const currUserName = getCookie('currUserName');
+  $('#curr-user-name').text(currUserName);  
+  // updateItemCount();
+  // calculateTotalPrice();
+});
+
+function getCookie(name) {
+  const cookies = document.cookie
+  console.log('cookies:', cookies);
+  let k;
+  for(let i =0;i<cookies.length;i++){
+    if(cookies[i]=='='){
+      k=i;
+    }
+  }
+  let curr = cookies.slice(k+1,cookies.length)
+  return curr;
+}
+
 
 function updateQuantity(inputElement) {
     const quantity = inputElement.value;
@@ -14,6 +34,8 @@ function updateQuantity(inputElement) {
       .then(response => {
         if (response.ok) {
           console.log('Quantity updated successfully');
+          updateItemCount();
+          calculateTotalPrice();
         } else {
           throw new Error('Error updating quantity');
         }
@@ -24,23 +46,7 @@ function updateQuantity(inputElement) {
   }
 
 
-//   function deleteItem(element){
-//     const itemId = element.dataset.itemId
-//     fetch(`/cart/${itemId}`, {
-//         method: 'DELETE',
-//       })
-//         .then(response => {
-//           if (response.ok) {
-//             console.log('Item deleted successfully');
-//             // Optionally, you can update the UI here to remove the deleted item from the cart
-//           } else {
-//             throw new Error('Error deleting item');
-//           }
-//         })
-//         .catch(error => {
-//           console.error('Error deleting item:', error);
-//         });
-//   }
+
  
 function deleteItem(element,index) {
     const itemId = element.dataset.itemId;
@@ -51,11 +57,9 @@ function deleteItem(element,index) {
     })
       .then(response => {
         if (response.ok) {
-          // Remove the item element from the DOM
           const itemElement = document.getElementById(`cart-item-${index}`);
           itemElement.remove();
           
-          // Update the item count and total price
           updateItemCount();
           calculateTotalPrice();
   

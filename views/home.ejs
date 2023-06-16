@@ -8,25 +8,71 @@
   <link rel="stylesheet" href="css/home.css">
   <title>Home</title>
 </head>
-<div>  dskn</div>
 <body>
     <div class="main-container">
         <%- include('partials/header', { title: 'Home' }) %>
         <div class="content">
+            <p class="welcome-title">Welcome, <span id="curr-user-name"></span></p>
+            <h2 class="top-coins">Todays Top Coins:</h2>
             <table>
                 <tr>
-                    <th>Coin</th><th>Price</th>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Price</th>
+                  <th>24/hr Change</th>
+                  <th>24/hr Volume</th>
                 </tr>
                 <tr>
-                    <td>Bitcoin</td><td id="btc-rate"></td>
+                  <td>Bitcoin</td>
+                  <td id="btc-sym"></td>
+                  <td id="btc-rate"></td>
+                  <td id="btc-change"></td>
+                  <td id="btc-vol"></td>
                 </tr>
                 <tr>
-                    <td>Etherium</td><td id="eth-rate"></td>
+                  <td>Ethereum</td>
+                  <td id="eth-sym"></td>
+                  <td id="eth-rate"></td>
+                  <td id="eth-change"></td>
+                  <td id="eth-vol"></td>
                 </tr>
                 <tr>
-                    <td>Doge</td><td id="dog-rate"></td>
+                  <td>Doge</td>
+                  <td id="dog-sym"></td>
+                  <td id="dog-rate"></td>
+                  <td id="dog-change"></td>
+                  <td id="dog-vol"></td>
                 </tr>
-            </table>
+                <tr>
+                  <td>Solana</td>
+                  <td id="sol-sym"></td>
+                  <td id="sol-rate"></td>
+                  <td id="sol-change"></td>
+                  <td id="sol-vol"></td>
+                </tr>
+                <tr>
+                  <td>Binance Coin</td>
+                  <td id="bnb-sym"></td>
+                  <td id="bnb-rate"></td>
+                  <td id="bnb-change"></td>
+                  <td id="bnb-vol"></td>
+                </tr>
+                <tr>
+                  <td>Cardano</td>
+                  <td id="ada-sym"></td>
+                  <td id="ada-rate"></td>
+                  <td id="ada-change"></td>
+                  <td id="ada-vol"></td>
+                </tr>
+                <tr>
+                  <td>XRP</td>
+                  <td id="xrp-sym"></td>
+                  <td id="xrp-rate"></td>
+                  <td id="xrp-change"></td>
+                  <td id="xrp-vol"></td>
+                </tr>
+              </table>
+              
             <div id="map"></div>
         </div>
         <%- include('partials/footer') %>
@@ -35,7 +81,8 @@
 
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
         ({key: '<%= googleKey%>' , v: "beta"});</script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>  
     <script src="js/home.js"></script>
     
 </body>
