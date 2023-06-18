@@ -54,6 +54,7 @@ app.get('/signup', (req, res) => {
 app.get('/products', (req, res) => {
   Product.find()
   .then(products => {
+    console.log("test", products);
     res.render('products', { title: 'Products Page',products });
   })
   .catch(error => {
@@ -91,7 +92,43 @@ app.post('/cart/add/:productId', (req, res) => {
     });
 });
 
+app.delete('/products/:productId', (req, res) => {
+  const productId = req.params.productId;
+  Product.deleteOne({ _id: productId })
+    .then(result => {
+      if (result.deletedCount === 1) {
+        console.log('Product deleted successfully');
+        res.sendStatus(200);
+      } else {
+        throw new Error('Product not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting product:', error);
+      res.sendStatus(500);
+    });
+});
 
+app.post('/products', (req, res) => {
+  const { name,description, symbol, price, change, volume } = req.body;
+  const newProduct = new Product({
+    name: name,
+    description:description,
+    symbol: symbol,
+    price: price,
+    change: change,
+    volume: volume
+  });
+  newProduct.save()
+    .then(savedProduct => {
+      console.log('Product created successfully:', savedProduct);
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.error('Error creating product:', error);
+      res.sendStatus(500);
+    });
+});
 
 app.get('/addProduct', (req, res) => {
   Product.find()
