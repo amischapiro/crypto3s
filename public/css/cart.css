@@ -20,6 +20,10 @@
   
   h1 {
     text-align: center;
+    color: white;
+  }
+  #curr-user-name{
+    text-transform: capitalize;
   }
 
   
@@ -99,15 +103,14 @@
     margin-top: auto;
   }
   .cart-title {
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
+    text-decoration: underline;
   }
   
-  .cart-title .cart-img {
-    margin-left: 5px;
-    width: 1.8rem;
-  }
   
+  
+ 
   
  .checkout-btn {
     display: block;
@@ -127,6 +130,7 @@
   }
   .cart-summary{
     text-align: center;
+    color: white;
   }
   .trash-img{
     cursor: pointer;

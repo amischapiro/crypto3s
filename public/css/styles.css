@@ -13,6 +13,8 @@ html, body {
   .content {
     flex: 1;
     padding: 1rem;
+    background-image: url('/img/abstract-futuristic-background-with-3d-design.jpg');
+    background-size: cover;
   }
   
   .footer {
@@ -20,12 +22,12 @@ html, body {
     padding: 20px;
     text-align: center;
   }
-.header{
-    margin-bottom: 2rem;
-}
-
-nav {
+  .header{
+    height: 4rem;
     background-color: #f1f1f1;
+  }
+  
+  nav {
     padding: 10px;
   }
   
@@ -47,15 +49,18 @@ nav {
     border-radius: 5px;
   }
   
-  nav a:hover {
+  nav a:hover:not(#logo-a) {
     background-color: #333;
     color: #fff;
   }
   .logo {
-    width: 40px;
-    height: auto; 
+    width: 3rem;
+    /* height: auto;  */
+    /* top: 50%; */
+    transform: translateY(35%);
+    
   }
-
+ 
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
