@@ -11,6 +11,18 @@ const productSchema = new mongoose.Schema({
     price:{
         type:Number,
         require:true
+    },
+    symbol:{
+        type:String,
+        require:true
+    },
+    change:{
+        type:String,
+        require:true
+    },
+    volume:{
+        type:String,
+        require:true
     }
 })
 
