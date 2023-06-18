@@ -143,3 +143,7 @@
   .trash-img:hover{
     background-color:#FE1703;
   }
+.empty-cart{
+  color: white;
+  font-size: 2rem;
+}
