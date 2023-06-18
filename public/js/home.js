@@ -7,7 +7,6 @@ $(document).ready(function () {
 
 function getCookie(name) {
   const cookies = document.cookie
-  console.log('cookies:', cookies);
   let k;
   for(let i =0;i<cookies.length;i++){
     if(cookies[i]=='='){
@@ -18,44 +17,38 @@ function getCookie(name) {
   return curr;
 }
 
+function updateTableData(coinData) {
+    coinData.forEach(coin => { 
+    const coinSymbol = coin.symbol;
+    const coinPrice = parseFloat(coin.rate).toFixed(2).toLocaleString();
+    const coinChange = coin.change_24h.toFixed(2);
+    const coinVolume = coin.volume_24h.toLocaleString();
+
+    // Update table data for each coin
+    $('#' + coinSymbol + '-sym').text(coinSymbol);
+    $('#' + coinSymbol + '-rate').text('$' + coinPrice);
+    $('#' + coinSymbol + '-vol').text('$' + coinVolume);
+
+    // Update change percentage and color
+    const changeElement = $('#' + coinSymbol + '-change');
+    if (coinChange > 0) {
+      changeElement.css('color', 'green');
+      changeElement.text('+' + coinChange + '%');
+    } else {
+      changeElement.css('color', 'red');
+      changeElement.text(coinChange + '%');
+    }
+  });
+}
+
 function fetchCoinData() {  
   $.ajax({
     url: '/coin-rates',
     method: 'GET',
     success: function (response) {
-      const btcSym = response.bitcoin.symbol;
-      const ethSym = response.ethereum.symbol;
-      const dogSym = response.dogecoin.symbol
-        const solSym = response.solana.symbol;
-        const bnbSym = response.binancecoin.symbol;
-        const adaSym = response.cardano.symbol;
-        const xrpSym = response.ripple.symbol;
-        
-        const btcPrice = parseFloat(response.bitcoin.rate).toFixed(2).toLocaleString();
-        const ethPrice = parseFloat(response.ethereum.rate).toFixed(2).toLocaleString();
-        const dogPrice = parseFloat(response.dogecoin.rate).toFixed(2).toLocaleString();
-        const solPrice = parseFloat(response.solana.rate).toFixed(2).toLocaleString();
-        const bnbPrice = parseFloat(response.binancecoin.rate).toFixed(2).toLocaleString();
-        const adaPrice = parseFloat(response.cardano.rate).toFixed(2).toLocaleString();
-        const xrpPrice = parseFloat(response.ripple.rate).toFixed(2).toLocaleString();
-        
-        const btcChange = response.bitcoin.change_24h.toFixed(2);
-        const ethChange = response.ethereum.change_24h.toFixed(2);
-        const dogChange = response.dogecoin.change_24h.toFixed(2);
-        const solChange = response.solana.change_24h.toFixed(2);
-        const bnbChange = response.binancecoin.change_24h.toFixed(2);
-        const adaChange = response.cardano.change_24h.toFixed(2);
-        const xrpChange = response.ripple.change_24h.toFixed(2);
-        
-        const btcVol = response.bitcoin.volume_24h.toLocaleString()
-        const ethVol = response.ethereum.volume_24h.toLocaleString()
-        const dogVol = response.dogecoin.volume_24h.toLocaleString()
-        const solVol = response.solana.volume_24h.toLocaleString()
-        const bnbVol = response.binancecoin.volume_24h.toLocaleString()
-        const adaVol = response.cardano.volume_24h.toLocaleString()
-        const xrpVol = response.ripple.volume_24h.toLocaleString()
+      const coinData = Object.values(response);
       
-      updateTableData(btcSym, ethSym, dogSym, solSym, bnbSym, adaSym, xrpSym, btcPrice, ethPrice, dogPrice, solPrice, bnbPrice, adaPrice, xrpPrice, btcChange, ethChange, dogChange, solChange, bnbChange, adaChange, xrpChange, btcVol, ethVol, dogVol, solVol, bnbVol, adaVol, xrpVol);
+      updateTableData(coinData);
     },
     error: function (error) {
       console.log('Error:', error);
@@ -63,88 +56,8 @@ function fetchCoinData() {
   });
 }
 
-function updateTableData(btcSym, ethSym, dogSym, solSym, bnbSym, adaSym, xrpSym, btcPrice, ethPrice, dogPrice, solPrice, bnbPrice, adaPrice, xrpPrice, btcChange, ethChange, dogChange, solChange, bnbChange, adaChange, xrpChange, btcVol, ethVol, dogVol, solVol, bnbVol, adaVol, xrpVol) {
-  // Update the table data based on the received variables
-  $('#btc-sym').text(btcSym);
-  $('#eth-sym').text(ethSym);
-  $('#dog-sym').text(dogSym);
-        $('#sol-sym').text(solSym);
-        $('#bnb-sym').text(bnbSym);
-        $('#ada-sym').text(adaSym);
-        $('#xrp-sym').text(xrpSym);
-        
-        $('#btc-rate').text('$'+btcPrice);
-        $('#eth-rate').text('$'+ethPrice);
-        $('#dog-rate').text('$'+dogPrice);
-        $('#sol-rate').text('$'+solPrice);
-        $('#bnb-rate').text('$'+bnbPrice);
-        $('#ada-rate').text('$'+adaPrice);
-        $('#xrp-rate').text('$'+xrpPrice);
-        
-        $('#btc-vol').text('$'+btcVol);
-        $('#eth-vol').text('$'+ethVol);
-        $('#dog-vol').text('$'+dogVol);
-        $('#sol-vol').text('$'+solVol);
-        $('#bnb-vol').text('$'+bnbVol);
-        $('#ada-vol').text('$'+adaVol);
-        $('#xrp-vol').text('$'+xrpVol);
-        
-        if(btcChange > 0){
-          $('#btc-change').text('+'+btcChange+'%');
-          $('#btc-change').css('color','green');
-        } else {
-          $('#btc-change').css('color','red');
-          $('#btc-change').text(btcChange+'%');
-        }
-        
-        if(ethChange > 0){
-          $('#eth-change').css('color','green');
-          $('#eth-change').text('+'+ethChange+'%');
-        } else {
-          $('#eth-change').css('color','red');
-          $('#eth-change').text(ethChange+'%');
-        }
-        
-        if(dogChange > 0){
-          $('#dog-change').css('color','green');
-          $('#dog-change').text('+'+dogChange+'%');
-        } else {
-          $('#dog-change').css('color','red');
-          $('#dog-change').text(dogChange+'%');
-        }
-        
-        if(solChange > 0){
-          $('#sol-change').css('color','green');
-          $('#sol-change').text('+'+solChange+'%');
-        } else {
-          $('#sol-change').css('color','red');
-          $('#sol-change').text(solChange+'%');
-        }
-        
-        if(bnbChange > 0){
-          $('#bnb-change').css('color','green');
-          $('#bnb-change').text('+'+bnbChange+'%');
-        } else {
-          $('#bnb-change').css('color','red');
-          $('#bnb-change').text(bnbChange+'%');
-        }
-        
-        if(adaChange > 0){
-          $('#ada-change').css('color','green');
-          $('#ada-change').text('+'+adaChange+'%');
-        } else {
-          $('#ada-change').css('color','red');
-          $('#ada-change').text(adaChange+'%');
-        }
-        
-        if(xrpChange > 0){
-          $('#xrp-change').css('color','green');
-          $('#xrp-change').text('+'+xrpChange+'%');
-        } else {
-          $('#xrp-change').css('color','red');
-          $('#xrp-change').text(xrpChange+'%');
-        }
-}
+
+
 
 
 

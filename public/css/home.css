@@ -58,7 +58,7 @@ tr:hover {
 #eth-change{
     text-align: center;
 }
-#dog-change{
+#doge-change{
     text-align: center;
 }
 #sol-change{
@@ -71,5 +71,14 @@ tr:hover {
     text-align: center;
 }
 #xrp-change{
+    text-align: center;
+}
+#shib-change{
+    text-align: center;
+}
+#xlm-change{
+    text-align: center;
+}
+#trx-change{
     text-align: center;
 }

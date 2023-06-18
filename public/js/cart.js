@@ -97,9 +97,33 @@ function deleteItem(element,index) {
         totalPrice += price;
       }
     });
-  
+    
     totalPriceElement.textContent = totalPrice;
   }
   
   
+  
+  function checkout() {
+    const currUserName = getCookie('currUserName');
+  
+    fetch('/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: currUserName }),
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Order created successfully');
+          // Redirect to order history page or perform any other action
+          window.location.href = '/order-history';
+        } else {
+          throw new Error('Error creating order');
+        }
+      })
+      .catch(error => {
+        console.error('Error creating order:', error);
+      });
+  }
   

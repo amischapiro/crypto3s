@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const Product = require('./order');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
