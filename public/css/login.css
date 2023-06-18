@@ -1,56 +1,55 @@
 body {
-    background-color: #f2f2f2;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    background-color: #ffffff;
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-  }
-  
-  h1 {
-    text-align: center;
-    color: #333333;
-  }
-  
-  form {
-    margin-top: 30px;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    outline: none;
-    border-color: #0066cc;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #0066cc;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    background-color: #0052a3;
-  }
-  
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: #ffffff;
+  max-width: 300px; /* Modified: Smaller width */
+  margin: 100px auto;
+  padding: 20px; /* Modified: Smaller padding */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+  color: #333333;
+}
+
+form {
+  margin-top: 20px; /* Modified: Smaller margin */
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px; /* Modified: Smaller padding */
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin-bottom: 15px; /* Modified: Smaller margin */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #0066cc;
+}
+
+button {
+  width: 100%;
+  padding: 10px; /* Modified: Smaller padding */
+  background-color: #0066cc;
+  border: none;
+  color: #ffffff;
+  font-size: 14px; /* Modified: Smaller font size */
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0052a3;
+}
