@@ -6,7 +6,7 @@ var newProduct = {
   change:"",
   volume:""
 };
-function addToCart(productId) {    
+function addToCart(productId,name) {    
     const quantityInput = document.getElementById(`add-quantity-${productId}`)
     quantity = quantityInput.value;
     
@@ -20,8 +20,8 @@ function addToCart(productId) {
     })
       .then(response => {
         if (response.ok) {
+          addModal(name)
           console.log('Product added to cart');
-          // Perform any necessary UI updates
         } else {
           throw new Error('Error adding product to cart');
         }
@@ -29,6 +29,16 @@ function addToCart(productId) {
       .catch(error => {
         console.error('Error adding product to cart:', error);
       });
+  }
+
+  function addModal(name){
+    const modal = document.getElementById('addModal')
+    const modalCoin = document.getElementById('addModal-coin')
+    modal.style.display = 'block'
+    modalCoin.innerText = 'Coin '+name;
+    setTimeout(() => {
+      modal.style.display = 'none'
+    }, 2000);
   }
 
   function deleteItem(productId) {

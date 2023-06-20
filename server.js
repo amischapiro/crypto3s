@@ -39,7 +39,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-    res.render('home', { title: 'Home',googleKey});
+  const currUserName = req.cookies.currUserName;
+    res.render('home', { title: 'Home',googleKey,currUserName});
   });
 app.get('/login', (req, res) => {
   let isusername = false
@@ -51,10 +52,10 @@ app.get('/signup', (req, res) => {
   res.render('signup', { title: 'signup Page',isuser});
 });
 
+
 app.get('/products', (req, res) => {
   Product.find()
   .then(products => {
-    console.log("test", products);
     res.render('products', { title: 'Products Page',products });
   })
   .catch(error => {
@@ -254,7 +255,6 @@ app.put('/cart/:itemId', (req, res) => {
   .then(updatedUser => {
     console.log('Quantity updated successfully:', updatedUser);
     res.sendStatus(200);
-    // res.redirect('/cart')
   })
   .catch(error => {
     console.error('Error updating quantity:', error);
@@ -349,7 +349,7 @@ app.get('/order-history', async (req, res) => {
     const currUserName = req.cookies.username;
     const user = await User.findOne({ username: currUserName });
     if (user) {
-      const allOrders = await Order.find({}).populate('products.product');
+      const allOrders = await Order.find({user:user._id}).populate('products.product');
       let orders = [];
       allOrders.forEach(order => {
         const products = order.products.map(product => ({
@@ -366,8 +366,7 @@ app.get('/order-history', async (req, res) => {
           orderDate: order.orderDate
         });
       });
-
-      const orderHistory = orders;
+      const orderHistory = orders
 
       res.render('order-history', { title: 'Order History Page', orderHistory });
     } else {
@@ -440,6 +439,12 @@ app.post('/login',async (req, res) => {
       console.error(error);
       res.redirect('/error');
     }
+  });
+
+
+  app.get('/logout', (req, res) => {
+    res.clearCookie('username');
+    res.redirect('/login');
   });
   
 app.listen(port, () => {
