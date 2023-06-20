@@ -13,6 +13,9 @@
     <div class="main-container">
         <%- include('partials/header') %>
         <div class="content">
+          <div id="checkoutModal">
+            Thank you for your purchase!
+          </div>
             <h1 class="cart-title">   
                  <span id="curr-user-name"></span>'s Cart 🛒                  
               </h1>
@@ -27,7 +30,7 @@
                             <div class="item-info">
                               <div class="item-quantity">
                                 <label for="cart-item-quantity">Quantity:</label>
-                                <input type="number" min="1" name="cart-item-quantity" id="cart-item-quantity" value="<%= item.quantity %>" data-item-id="<%= item.product._id %>" data-index="<%= index %>" onchange="updateQuantity(this)">
+                                <input type="number" min="1" name="cart-item-quantity" id="cart-item-quantity-<%= index %>" value="<%= item.quantity %>" data-item-id="<%= item.product._id %>" data-index="<%= index %>" onchange="updateQuantity(this)">
                               </div>
                               <div class="item-subtotal">
                                 <p>Subtotal: $<%= (item.product.price * item.quantity).toFixed(2) %></p>
@@ -41,15 +44,15 @@
                             <p>Total Price: $<span id="total-price">
                                 <% let totalPrice = 0; %>
                                 <% cartItems.forEach(item => { %>
-                                  <% totalPrice += item.product.price * item.quantity; %>
+                                  <% totalPrice += (item.product.price * item.quantity); %>
                                 <% }); %>
                                 <%=totalPrice.toFixed(2) %>
                               </span></p>
                         </div>
                         </div>
-                        <button class="checkout-btn">Checkout</button>
+                        <button class="checkout-btn" onclick="checkout()">Checkout</button>
                         <% } else { %>
-                            <p>Your cart is empty.</p>
+                            <p class="empty-cart">Your cart is empty😢</p>
                             <% } %>
                         </div>
                     </div>      

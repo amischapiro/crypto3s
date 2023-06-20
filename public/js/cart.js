@@ -7,7 +7,6 @@ $(document).ready(function () {
 
 function getCookie(name) {
   const cookies = document.cookie
-  console.log('cookies:', cookies);
   let k;
   for(let i =0;i<cookies.length;i++){
     if(cookies[i]=='='){
@@ -22,8 +21,6 @@ function getCookie(name) {
 function updateQuantity(inputElement) {
     const quantity = inputElement.value;
     const itemId = inputElement.dataset.itemId;
-    
-    
     fetch(`/cart/${itemId}`, {
       method: 'PUT',
       headers: {
@@ -34,8 +31,7 @@ function updateQuantity(inputElement) {
       .then(response => {
         if (response.ok) {
           console.log('Quantity updated successfully');
-          updateItemCount();
-          calculateTotalPrice();
+          window.location.href = '/cart';
         } else {
           throw new Error('Error updating quantity');
         }
@@ -50,7 +46,6 @@ function updateQuantity(inputElement) {
  
 function deleteItem(element,index) {
     const itemId = element.dataset.itemId;
-// console.log('index:', index);
 
     fetch(`/cart/${itemId}`, {
       method: 'DELETE',
@@ -60,8 +55,7 @@ function deleteItem(element,index) {
           const itemElement = document.getElementById(`cart-item-${index}`);
           itemElement.remove();
           
-          updateItemCount();
-          calculateTotalPrice();
+          window.location.href = '/cart';
   
           console.log('Item deleted successfully');
         } else {
@@ -97,9 +91,42 @@ function deleteItem(element,index) {
         totalPrice += price;
       }
     });
-  
+    
     totalPriceElement.textContent = totalPrice;
   }
   
   
   
+  function checkout() {
+    const currUserName = getCookie('currUserName');
+  
+    fetch('/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: currUserName }),
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Order created successfully');
+          checkoutModal()
+          setTimeout(() => {
+            const modal = document.getElementById('checkoutModal')
+            modal.style.display = 'none'
+            window.location.href = '/order-history';
+          }, 2000);
+        } else {
+          throw new Error('Error creating order');
+        }
+      })
+      .catch(error => {
+        console.error('Error creating order:', error);
+      });
+  }
+  
+
+  function checkoutModal(){
+    const modal = document.getElementById('checkoutModal')
+    modal.style.display = 'block'
+  }

@@ -13,6 +13,9 @@
     <div class="main-container">
       <%- include ('partials/header') %>
     <div class="content">
+      <div id="addModal">
+        <p id="addModal-coin"></p> Has been added to your cart
+      </div>
       <div id="newcoin">
         <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
         </div>
@@ -38,7 +41,7 @@
                 <td id="volume-<%=product._id%>"><%= product.volume %></td>
                 <td><img src="<%= product.chart %>" alt="7-day chart"></td>
                 <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
-                <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>')">
+                <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
                 <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
                 <img c src="/img/trash-can.png" alt="" id ="delete" onclick="deleteItem('<%= product._id %>')">
                 <img src="/img/edit.png" alt=""id ="edit" onclick="editItem('<%= product._id %>')">

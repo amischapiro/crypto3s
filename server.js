@@ -10,10 +10,10 @@ const config = require('./config')
 const coinFetch = require('./services/home')
 const googleKey = config.googleKey
 let userId;
-// let currUserName = 'unknown'
 const {default:mongoose}= require("mongoose")
 const Product = require('./models/product')
 const User = require('./models/user')
+const Order = require('./models/order')
 const mongoKey = config.mongoKey
 mongoose.connect(mongoKey)
 .then(()=>{
@@ -39,7 +39,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-    res.render('home', { title: 'Home',googleKey});
+  const currUserName = req.cookies.currUserName;
+    res.render('home', { title: 'Home',googleKey,currUserName});
   });
 app.get('/login', (req, res) => {
   let isusername = false
@@ -50,6 +51,7 @@ app.get('/signup', (req, res) => {
   let isuser = false
   res.render('signup', { title: 'signup Page',isuser});
 });
+
 
 app.get('/products', (req, res) => {
   Product.find()
@@ -183,31 +185,12 @@ app.get('/product-info/:productId', (req, res) => {
 });
 app.post('/addProduct',(req,res)=>{
   console.log(req.body);
-  // gets info from addProduct form
 })
 
-// app.get('/btc-rate', (req, res) => {
-//   const coinAPIKey = config.coinKey; 
-  
-//   axios
-//     .get('https://rest.coinapi.io/v1/exchangerate/BTC/USD', {
-//       headers: {
-//         'X-CoinAPI-Key': coinAPIKey,
-//       },
-//     })
-//     .then(response => {
-//       const btcRate = response.data.rate;
-//       // res.send(btcRate);
-//       res.status(200).send(btcRate.toString());
-//     })
-//     .catch(error => {
-//       console.log('Error:', error.message);
-//       res.status(500).send('Error fetching BTC rate');
-//     });
-// });
+
 
 app.get('/coin-rates', (req, res) => {
-  const coins = ['bitcoin', 'ethereum', 'dogecoin', 'solana', 'binancecoin', 'cardano', 'ripple'];
+  const coins = ['bitcoin', 'ethereum', 'dogecoin', 'solana', 'binancecoin', 'cardano', 'ripple', 'shiba-inu', 'tron', 'stellar'];
   const vsCurrency = 'usd';
   
   const url = `https://api.coingecko.com/api/v3/coins/markets?ids=${coins.join(',')}&vs_currency=${vsCurrency}&include_24hr_change=true`;
@@ -248,33 +231,6 @@ app.get('/coin-rates', (req, res) => {
 });
 
 
-
-
-// app.get('/cart', (req, res) => {
-//   User.find({ username: 'user1' })
-//   .then(user => {
-//     if (user) {
-//       // let cartItems = user[0].cart;
-//       user = user[0];
-//       let cartItems = []
-//       for(let i = 0;i<user.cart.length;i++){
-//         let currItem ={
-//           product:Product.findById(user.cart[i]._id),
-//           quantity:user.cart[i].quantity
-//         }
-//         cartItems.push(currItem)
-//       }
-//       console.log('cartItems:', cartItems);
-      
-//       res.render('cart', { title: 'Cart Page', user });
-//     } else {
-//       console.log('User not found');
-//     }
-//   })
-//   .catch(error => {
-//     console.error('Error fetching user:', error);
-//   });
-// });
 app.get('/cart', async (req, res) => {
   try {
     
@@ -326,7 +282,6 @@ app.put('/cart/:itemId', (req, res) => {
   .then(updatedUser => {
     console.log('Quantity updated successfully:', updatedUser);
     res.sendStatus(200);
-    // res.redirect('/cart')
   })
   .catch(error => {
     console.error('Error updating quantity:', error);
@@ -364,12 +319,92 @@ app.delete('/cart/:itemId', (req, res) => {
 
 
 
+function calculateTotalAmount(orderItems) {
+  let totalAmount = 0;
+  orderItems.forEach((orderItem) => {
+    const productPrice = orderItem.product.price;
+    const quantity = orderItem.quantity;
+    totalAmount += productPrice * quantity;
+  });
+  return totalAmount;
+}
 
 
+app.post('/checkout', async (req, res) => {
+  try {
+    const currUserName = req.body.username;
 
-app.get('/order-history', (req, res) => {
-  res.render('order-history', { title: 'Order History Page' });
+    const user = await User.findOne({ username: currUserName }).populate('cart.productId');
+
+    if (user) {
+        const orderItems = user.cart.map(cartItem => ({
+        product: cartItem.productId,
+        quantity: cartItem.quantity,
+      }));
+      
+      const order = await Order.create({
+        user: user._id,
+        products: orderItems,
+        totalAmount: calculateTotalAmount(orderItems),
+      });
+
+      user.cart = [];
+      await user.save();
+
+      user.orderHistory.push(order);
+      await user.save();
+
+      res.sendStatus(200);
+    } else {
+      console.log('User not found');
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.sendStatus(500);
+  }
 });
+
+
+
+
+
+
+
+app.get('/order-history', async (req, res) => {
+  try {
+    const currUserName = req.cookies.username;
+    const user = await User.findOne({ username: currUserName });
+    if (user) {
+      const allOrders = await Order.find({user:user._id}).populate('products.product');
+      let orders = [];
+      allOrders.forEach(order => {
+        const products = order.products.map(product => ({
+          _id: product.product._id,
+          name: product.product.name,
+          price: product.product.price,
+          quantity: product.quantity
+        }));
+        orders.push({
+          _id: order._id,
+          user: order.user,
+          products,
+          totalAmount: order.totalAmount,
+          orderDate: order.orderDate
+        });
+      });
+      const orderHistory = orders
+
+      res.render('order-history', { title: 'Order History Page', orderHistory });
+    } else {
+      console.log('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching order history:', error);
+  }
+});
+
+
 
 
 app.post('/login',async (req, res) => {
@@ -431,6 +466,12 @@ app.post('/login',async (req, res) => {
       console.error(error);
       res.redirect('/error');
     }
+  });
+
+
+  app.get('/logout', (req, res) => {
+    res.clearCookie('username');
+    res.redirect('/login');
   });
   
 app.listen(port, () => {
