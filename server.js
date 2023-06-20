@@ -54,7 +54,6 @@ app.get('/signup', (req, res) => {
 app.get('/products', (req, res) => {
   Product.find()
   .then(products => {
-    console.log("test", products);
     res.render('products', { title: 'Products Page',products });
   })
   .catch(error => {
@@ -129,6 +128,33 @@ app.post('/products', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+app.put('/products/:productId', (req, res) => {
+  const productId = req.params.productId;
+  const { name, description, symbol, price, change, volume } = req.body;
+
+  Product.findByIdAndUpdate(productId, {
+    name: name,
+    description: description,
+    symbol: symbol,
+    price: price,
+    change: change,
+    volume: volume
+  })
+    .then(updatedProduct => {
+      if (updatedProduct) {
+        console.log('Product updated successfully:', updatedProduct);
+        res.sendStatus(200);
+      } else {
+        throw new Error('Product not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error updating product:', error);
+      res.sendStatus(500);
+    });
+});
+
 
 app.get('/addProduct', (req, res) => {
   Product.find()

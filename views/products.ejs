@@ -30,18 +30,20 @@
             </tr>
             <% products.forEach((product) => { %>
               <tr>
-                <td><%= product.name %></td>
-                <td><%= product.description %></td>
-                <td><%= product.symbol %></td>
-                <td><%= product.price %></td>
-                <td><%= product.change %></td>
-                <td><%= product.volume %></td>
+                <td id="name-<%=product._id%>"><%= product.name %></td>
+                <td id="description-<%=product._id%>"><%= product.description %></td>
+                <td id="symbol-<%=product._id%>"><%= product.symbol %></td>
+                <td id="price-<%=product._id%>"><%= product.price %></td>
+                <td id="change-<%=product._id%>"><%= product.change %></td>
+                <td id="volume-<%=product._id%>"><%= product.volume %></td>
                 <td><img src="<%= product.chart %>" alt="7-day chart"></td>
                 <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
                 <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>')">
                 <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
                 <img c src="/img/trash-can.png" alt="" id ="delete" onclick="deleteItem('<%= product._id %>')">
-                <img src="/img/edit.png" alt=""id ="edit" onclick="addToCart('<%= product._id %>')"></td>
+                <img src="/img/edit.png" alt=""id ="edit" onclick="editItem('<%= product._id %>')">
+                  <button class="save-btn" id="save-<%=product._id%>" onclick="saveEditedItem('<%=product._id%>')">save</button>
+              </td>
               </tr>
               <tr id="new-row" style="display: none;">
                 <td><input type="text" id="new-name"></td>

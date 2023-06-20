@@ -2,6 +2,7 @@
 table {
     border-collapse: collapse;
     width: 100%;
+    background-color: turquoise;
   }
   
   th, td {
@@ -34,4 +35,7 @@ table {
     width: 15px;
     height: auto;
     cursor: pointer;
+  }
+  .save-btn{
+    display: none;
   }
