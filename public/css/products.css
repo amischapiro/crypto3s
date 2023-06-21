@@ -1,7 +1,7 @@
 
 table {
     border-collapse: collapse;
-    width: 80%;
+    width: 90%;
     margin: auto;
     border: gray 3px solid;
   }
@@ -58,4 +58,27 @@ table {
     align-items: center;
     display: none;
     border: 4px solid mediumblue;
+  }
+
+
+
+  #search-results{
+    color: white;
+  }
+
+  label{
+    color: white;
+  }
+
+  #new-change{
+    width: 80%;
+  }
+  #new-volume{
+    width: 80%;
+  }
+  #new-price{
+    width: 120px;
+  }
+  #new-coin-row{
+    display: none;
   }

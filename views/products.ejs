@@ -13,6 +13,24 @@
     <div class="main-container">
       <%- include ('partials/header') %>
     <div class="content">
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search products...">
+      </div>
+      <label for="filter-select">Search By:</label>
+      <select id="filter-select">
+        <option value="name">Name</option>
+        <option value="description">Description</option>
+        <option value="symbol">Symbol</option>
+      </select>
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select" onchange="sortProducts()">
+        <option value="">Select</option>
+        <option value="price">Price</option>
+        <option value="change">Change</option>
+        <option value="volume">Volume</option>
+      </select>
+
+      
       <div id="addModal">
         <p id="addModal-coin"></p> Has been added to your cart
       </div>
@@ -22,44 +40,58 @@
         <br>
         <div class="product-grid">
           <table id="product-table">
-            <tr>
-              <th>NAME</th>
-              <th>description</th>
-              <th>SYMBOL</th>
-              <th>Price</th>
-              <th>24H CHANGE </th>
-              <th>24H VOLUME</th>
-              <th>7D CHART</th>
-            </tr>
-            <% products.forEach((product) => { %>
+            <thead>
               <tr>
-                <td><%= product.name %></td>
-                <td><%= product.description %></td>
-                <td><%= product.symbol %></td>
-                <td><%= product.price %></td>
-                <td><%= product.change %></td>
-                <td><%= product.volume %></td>
-                <td><img src="<%= product.chart %>" alt="7-day chart"></td>
-                <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
-                <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
-                <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
-                <img c src="/img/trash-can.png" alt="" id ="delete" onclick="deleteItem('<%= product._id %>')">
-                <img src="/img/edit.png" alt=""id ="edit" onclick="addToCart('<%= product._id %>')"></td>
+                <th>NAME</th>
+                <th>description</th>
+                <th>SYMBOL</th>
+                <th>Price</th>
+                <th>24H CHANGE </th>
+                <th>24H VOLUME</th>
+                <th>7D CHART</th>
               </tr>
-              <tr id="new-row" style="display: none;">
-                <td><input type="text" id="new-name"></td>
-                <td><input type="text" id="new-description"></td>
-                <td><input type="text" id="new-symbol"></td>
-                <td><input type="number" id="new-price" ></td>
-                <td><input type="text" id="new-change"></td>
-                <td><input type="text" id="new-volume"></td>
-                <td></td>
-                <td>
-                  <button onclick="saveNewItem()">Save</button>
-                </td>
+              <tr id="new-coin-row">
+                <td><input type="text" placeholder="Insert new name" required id="new-name"></td>
+                <td><input type="text" placeholder="Insert new description" required id="new-description"></td>
+                <td><input type="text" placeholder="Insert new symbol" required id="new-symbol"></td>
+                <td><input type="number" placeholder="Insert new price" required min="0" id="new-price"></td>
+                <td><input type="number" placeholder="Insert 24/hr change" required  id="new-change"></td>
+                <td><input type="number" placeholder="Insert 24/hr volume" required id="new-volume"></td>
+                <td>chart will go here</td>
+                <td><button onclick="saveNewItem()">Save</button></td>
               </tr>
-            <% }); %>
-          </table>
+            </thead>
+            <tbody>
+              <% products.forEach((product) => { %>
+                <tr>
+                  <td><%= product.name %></td>
+                  <td><%= product.description %></td>
+                  <td><%= product.symbol %></td>
+                  <td data-price="<%=product.price %>" >$<%= product.price.toLocaleString() %></td>
+                  <td data-change="<%=product.change %>"><%= product.change %>%</td>
+                  <td data-volume="<%=product.volume %>">$<%= parseInt(product.volume).toLocaleString() %></td>
+                  <td><img src="<%= product.chart %>" alt="7-day chart"></td>
+                  <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
+                    <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
+                    <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
+                    <img c src="/img/trash-can.png" alt="" id ="delete" onclick="deleteItem('<%= product._id %>')">
+                    <img src="/img/edit.png" alt=""id ="edit" onclick="addToCart('<%= product._id %>')"></td>
+                  </tr>
+                  <!-- <tr id="new-row" style="display: none;">
+                    <td><input type="text" id="new-name"></td>
+                    <td><input type="text" id="new-description"></td>
+                    <td><input type="text" id="new-symbol"></td>
+                    <td><input type="number" id="new-price" ></td>
+                    <td><input type="text" id="new-change"></td>
+                    <td><input type="text" id="new-volume"></td>
+                    <td></td>
+                    <td>
+                      <button onclick="saveNewItem()">Save</button>
+                    </td>
+                  </tr> -->
+                  <% }); %>
+                </tbody>
+                </table>
         </div>
     </div>
     <%- include('partials/footer') %>

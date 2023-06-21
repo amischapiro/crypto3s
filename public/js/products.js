@@ -51,7 +51,7 @@ function addToCart(productId,name) {
       .then(response => {
         if (response.ok) {
           console.log('Item deleted successfully');
-          // Perform any necessary UI updates
+          window.location.href = '/products';
         } else {
           throw new Error('Error deleting item');
         }
@@ -62,8 +62,7 @@ function addToCart(productId,name) {
   }
 
   function addNewCoin() {
-    // Show the new row
-    document.getElementById("new-row").style.display = "table-row";
+    document.getElementById("new-coin-row").style.display = "table-row";
   }
   
   function saveNewItem() {
@@ -77,32 +76,33 @@ function addToCart(productId,name) {
     newProduct.name = name
     newProduct.description = description
     newProduct.symbol = symbol
-    newProduct.price = price
+    newProduct.price = price 
     newProduct.change = change
     newProduct.volume = volume
 
-    var newRowHTML = `
-      <tr>
-        <td>${name}</td>
-        <td>${description}</td>
-        <td>${symbol}</td>
-        <td>${price}</td>
-        <td>${change}</td>
-        <td>${volume}</td>
-        <td></td>
-        <td>
-          <input type="number" id="add-quantity-${name}" min="1" value="1">
-          <img src="/img/plus.png" id ="add" alt="" onclick="addToCart('${name}')">
-          <a href="/product-info/${name}"><img src="/img/info.png" id= "info" alt=""></a>
-          <img src="/img/trash-can.png" id ="delete" alt="" onclick="deleteItem('${name}')">
-          <img src="/img/edit.png" id = "edit" alt="" onclick="editItem('${name}')">
-        </td>
-      </tr>
-    `;
-    document.getElementById("product-table").insertAdjacentHTML("beforeend", newRowHTML);
-    document.getElementById("new-row").style.display = "none";
+    // var newRowHTML = `
+    //   <tr>
+    //     <td>${name}</td>
+    //     <td>${description}</td>
+    //     <td>${symbol}</td>
+    //     <td>${price}</td>
+    //     <td>${change}</td>
+    //     <td>${volume}</td>
+    //     <td></td>
+    //     <td>
+    //       <input type="number" id="add-quantity-${name}" min="1" value="1">
+    //       <img src="/img/plus.png" id ="add" alt="" onclick="addToCart('${name}')">
+    //       <a href="/product-info/${name}"><img src="/img/info.png" id= "info" alt=""></a>
+    //       <img src="/img/trash-can.png" id ="delete" alt="" onclick="deleteItem('${name}')">
+    //       <img src="/img/edit.png" id = "edit" alt="" onclick="editItem('${name}')">
+    //     </td>
+    //   </tr>
+    // `;
+    // document.getElementById("product-table").insertAdjacentHTML("beforeend", newRowHTML);
+    document.getElementById("new-coin-row").style.display = "none";
 
-
+    console.log('newProduct:', newProduct);
+    
     fetch('/products', {
       method: 'POST',
       headers: {
@@ -113,7 +113,7 @@ function addToCart(productId,name) {
       .then(response => {
         if (response.ok) {
           console.log('Product created successfully');
-          // Perform any necessary UI updates
+          window.location.href = '/products';
         } else {
           throw new Error('Error creating product');
         }
@@ -123,3 +123,75 @@ function addToCart(productId,name) {
       });
   
   }
+
+
+
+
+
+
+  function searchProducts() {
+    const searchInput = document.getElementById('search-input');
+    const searchQuery = searchInput.value.toLowerCase();
+    const filterSelect = document.getElementById('filter-select');
+    const filterOption = filterSelect.value;
+    const tableRows = document.querySelectorAll('#product-table tbody tr');
+  
+    tableRows.forEach(row => {
+      const name = row.querySelector('td:first-child').innerText.toLowerCase();
+      const description = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+      const symbol = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+  
+      let filterValue = '';
+      if (filterOption === 'name') {
+        filterValue = name;
+      } else if (filterOption === 'description') {
+        filterValue = description;
+      } else if (filterOption === 'symbol') {
+        filterValue = symbol;
+      }
+  
+      if (filterValue.includes(searchQuery)) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+  
+
+
+  const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', searchProducts);
+
+function sortProducts() {
+  const sortSelect = document.getElementById('sort-select');
+  const sortOption = sortSelect.value;
+  const tableBody = document.querySelector('#product-table tbody');  
+  const tableRows = Array.from(tableBody.querySelectorAll('tr'));
+
+  tableRows.sort((rowA, rowB) => {
+    const valueA = rowA.querySelector(`td[data-${sortOption}]`).dataset[sortOption];
+    const valueB = rowB.querySelector(`td[data-${sortOption}]`).dataset[sortOption];
+
+    if (sortOption === 'price' || sortOption === 'volume' || sortOption === 'change') {
+      return parseFloat(valueB) - parseFloat(valueA);
+    } else {
+      return valueA.localeCompare(valueB);
+    }
+  });
+
+  tableRows.forEach(row => {
+    row.remove();
+  });
+
+  tableRows.forEach(row => {
+    tableBody.appendChild(row);
+  });
+}
+
+
+
+
+
+
+
