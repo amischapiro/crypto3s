@@ -11,6 +11,7 @@ const coinFetch = require('./services/home')
 const googleKey = config.googleKey
 let userId;
 const {default:mongoose}= require("mongoose")
+const { Query } = require('mongoose');
 const Product = require('./models/product')
 const User = require('./models/user')
 const Order = require('./models/order')
@@ -93,22 +94,52 @@ app.post('/cart/add/:productId', (req, res) => {
     });
 });
 
-app.delete('/products/:productId', (req, res) => {
-  const productId = req.params.productId;
-  Product.deleteOne({ _id: productId })
-    .then(result => {
-      if (result.deletedCount === 1) {
-        console.log('Product deleted successfully');
-        res.sendStatus(200);
+app.delete('/products/:productId', async (req, res) => {
+  try {
+    const productId = req.params.productId;
+
+    const productDeleteResult = await Product.deleteOne({ _id: productId });
+
+    if (productDeleteResult.deletedCount !== 1) {
+      throw new Error('Product not found');
+    }
+
+    const [userUpdateResult, orderUpdateResult] = await Promise.all([
+      User.updateMany({ 'cart.productId': productId }, { $pull: { cart: { productId } } }),
+      Order.updateMany({ 'products.product': productId }, { $pull: { products: { product: productId } } })
+    ]);
+
+    const hasUserUpdate = userUpdateResult.modifiedCount > 0;
+    const hasOrderUpdate = orderUpdateResult.modifiedCount > 0;
+
+    if (hasUserUpdate || hasOrderUpdate) {
+      if (hasOrderUpdate) {
+        const orders = await Order.find({});
+        const deletePromises = [];
+
+        orders.forEach(order => {
+          if (!order.products || order.products.length === 0) {
+            deletePromises.push(Order.deleteOne({ _id: order._id }));
+          }
+        });
+
+        const deletedOrders = await Promise.all(deletePromises);
+        console.log(`${deletedOrders.length} orders deleted successfully.`);
       } else {
-        throw new Error('Product not found');
+        console.log('Product deleted successfully from cart');
       }
-    })
-    .catch(error => {
-      console.error('Error deleting product:', error);
-      res.sendStatus(500);
-    });
+    } else {
+      throw new Error('Product not found in cart and orders');
+    }
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.sendStatus(500);
+  }
 });
+
+
 
 app.post('/products', (req, res) => {
   const { name,description, symbol, price, change, volume } = req.body;
@@ -130,6 +161,32 @@ app.post('/products', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+
+app.get('/products/search', (req, res) => {
+  const searchQuery = req.query.q; // Retrieve the search query from the request
+
+  // Build the search query using regular expressions
+  const regex = new RegExp(searchQuery, 'i');
+  const searchCondition = {
+    $or: [
+      { name: regex },
+      { description: regex },
+      { symbol: regex }
+    ]
+  };
+
+  Product.find(searchCondition)
+    .then(products => {
+      res.json(products);
+    })
+    .catch(error => {
+      console.error('Error searching products:', error);
+
+    }
+  
+    )
+})
 
 app.put('/products/:productId', (req, res) => {
   const productId = req.params.productId;
@@ -378,21 +435,22 @@ app.get('/order-history', async (req, res) => {
     if (user) {
       const allOrders = await Order.find({user:user._id}).populate('products.product');
       let orders = [];
-      allOrders.forEach(order => {
-        const products = order.products.map(product => ({
-          _id: product.product._id,
-          name: product.product.name,
-          price: product.product.price,
-          quantity: product.quantity
-        }));
-        orders.push({
-          _id: order._id,
-          user: order.user,
-          products,
-          totalAmount: order.totalAmount,
-          orderDate: order.orderDate
+      
+        allOrders.forEach(order => {
+          const products = order.products.map(product => ({
+            _id: product.product._id,
+            name: product.product.name,
+            price: product.product.price,
+            quantity: product.quantity
+          }));
+          orders.push({
+            _id: order._id,
+            user: order.user,
+            products,
+            totalAmount: order.totalAmount,
+            orderDate: order.orderDate
+          });
         });
-      });
       const orderHistory = orders
 
       res.render('order-history', { title: 'Order History Page', orderHistory });
