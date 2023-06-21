@@ -133,7 +133,6 @@ function addToCart(productId,name) {
       });
   
   }
-  /////////////need to be fixed////////////////
   function editItem(productId) {
     // Get the row elements to be edited
     var nameElement = document.getElementById("name-" + productId);
