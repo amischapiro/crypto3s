@@ -182,6 +182,12 @@ app.get('/products/search', (req, res) => {
     })
     .catch(error => {
       console.error('Error searching products:', error);
+
+    }
+  
+    )
+})
+
 app.put('/products/:productId', (req, res) => {
   const productId = req.params.productId;
   const { name, description, symbol, price, change, volume } = req.body;
