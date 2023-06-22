@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-  const currUserName = req.cookies.currUserName;
+  const currUserName = req.cookies.username;
     res.render('home', { title: 'Home',googleKey,currUserName});
   });
 app.get('/login', (req, res) => {
@@ -55,6 +55,7 @@ app.get('/signup', (req, res) => {
 
 
 app.get('/products', (req, res) => {
+  
   Product.find()
   .then(products => {
     res.render('products', { title: 'Products Page',products });

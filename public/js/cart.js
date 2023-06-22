@@ -1,8 +1,6 @@
 $(document).ready(function () {
   const currUserName = getCookie('currUserName');
   $('#curr-user-name').text(currUserName);  
-  // updateItemCount();
-  // calculateTotalPrice();
 });
 
 function getCookie(name) {
