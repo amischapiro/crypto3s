@@ -13,23 +13,30 @@
     <div class="main-container">
       <%- include ('partials/header') %>
     <div class="content">
-      <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search products...">
-      </div>
-      <label for="filter-select">Search By:</label>
-      <select id="filter-select">
-        <option value="name">Name</option>
-        <option value="description">Description</option>
-        <option value="symbol">Symbol</option>
-      </select>
-      <label for="sort-select">Sort by:</label>
-      <select id="sort-select" onchange="sortProducts()">
-        <option value="">Select</option>
-        <option value="price">Price</option>
-        <option value="change">Change</option>
-        <option value="volume">Volume</option>
-      </select>
-
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search products...">
+        </div>
+        <div class="search-container">
+          <label for="filter-select">Search By:</label>
+          <select id="filter-select">
+            <option value="name">Name</option>
+            <option value="description">Description</option>
+            <option value="symbol">Symbol</option>
+          </select>
+        </div>
+        <div class="sort-container">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select" onchange="sortProducts()">
+            <option value="">Select</option>
+            <option value="price">Price</option>
+            <option value="change">Change</option>
+            <option value="volume">Volume</option>
+          </select>
+        </div>
+        
+        <div id="newcoin">
+          <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
+          </div>
       
       <div id="addModal">
         <p id="addModal-coin"></p> Has been added to your cart
@@ -63,6 +70,7 @@
                 <td>chart will go here</td>
                 <td><button onclick="saveNewItem()">Save</button></td>
               </tr>
+            
             </thead>
             <tbody>
               <% products.forEach((product) => { %>
