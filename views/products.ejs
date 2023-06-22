@@ -33,10 +33,6 @@
             <option value="volume">Volume</option>
           </select>
         </div>
-        
-        <div id="newcoin">
-          <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
-          </div>
       
       <div id="addModal">
         <p id="addModal-coin"></p> Has been added to your cart
@@ -46,7 +42,6 @@
         <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
         </div>
         <% } %>
-        <br>
         <div class="product-grid">
           <table id="product-table">
             <thead>
@@ -57,7 +52,6 @@
                 <th>Price</th>
                 <th>24H CHANGE </th>
                 <th>24H VOLUME</th>
-                <th>7D CHART</th>
                 <th>ADD/INFO</th>
               </tr>
               <tr id="new-coin-row">
@@ -67,7 +61,6 @@
                 <td><input type="number" placeholder="Insert new price" required min="0" id="new-price"></td>
                 <td><input type="number" placeholder="Insert 24/hr change" required  id="new-change"></td>
                 <td><input type="number" placeholder="Insert 24/hr volume" required id="new-volume"></td>
-                <td>chart will go here</td>
                 <td><button onclick="saveNewItem()">Save</button></td>
               </tr>
             
@@ -81,7 +74,6 @@
                   <td id="price-<%=product._id%>" data-price="<%=product.price %>" >$<%= product.price.toLocaleString() %></td>
                   <td data-change="<%=product.change %>" id="change-<%=product._id%>"><%= product.change %>%</td>
                   <td id="volume-<%=product._id%>" data-volume="<%=product.volume %>">$<%= parseInt(product.volume).toLocaleString() %></td>
-                  <td><img src="<%= product.chart %>" alt="7-day chart"></td>
                   <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
                     <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
                     <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
@@ -92,18 +84,6 @@
                     <% } %>
               </td>
                   </tr>
-                  <!-- <tr id="new-row" style="display: none;">
-                    <td><input type="text" id="new-name"></td>
-                    <td><input type="text" id="new-description"></td>
-                    <td><input type="text" id="new-symbol"></td>
-                    <td><input type="number" id="new-price" ></td>
-                    <td><input type="text" id="new-change"></td>
-                    <td><input type="text" id="new-volume"></td>
-                    <td></td>
-                    <td>
-                      <button onclick="saveNewItem()">Save</button>
-                    </td>
-                  </tr> -->
                   <% }); %>
                 </tbody>
                 </table>

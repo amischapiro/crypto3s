@@ -12,10 +12,24 @@
           <li><a href="/order-history">Order History</a></li>
         </div>
         <div class="nav-logout">
-          <li><a href="/logout"><img src="/img/user.png" id="user-img"> Logout</a></li>
-
+          <a href=""><img src="/img/user.png" id="userimg"></a>
+          <li id="username-container"></li>
+          <li><a href="/logout">Logout</a></li>
         </div>
       </div>
     </ul>
   </nav>
+  <script>
+  const cookies = document.cookie
+  let k;
+  for(let i =0;i<cookies.length;i++){
+    if(cookies[i]=='='){
+      k=i;
+    }
+  }
+  let curr = cookies.slice(k+1,cookies.length)
+  var usernameContainer = document.getElementById('username-container');
+  usernameContainer.innerText = curr;
+
+  </script>
 </header>

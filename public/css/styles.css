@@ -71,8 +71,6 @@ html, body {
     
   }
 
-
- 
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -88,3 +86,15 @@ html, body {
     height: auto;
     width: 1.2rem;
   }
+  .nav-logout{
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    #userimg{
+      width: 20px;
+      height: 20px;
+    }
+  }
+ 

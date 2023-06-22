@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  const currUserName = getCookie('currUserName');
-  $('#curr-user-name').text(currUserName);
   fetchCoinData();
   setInterval(fetchCoinData,10000)
 });
