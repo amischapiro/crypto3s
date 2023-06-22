@@ -34,9 +34,11 @@
       <div id="addModal">
         <p id="addModal-coin"></p> Has been added to your cart
       </div>
-      <div id="newcoin">
+      <% if (ifAdmin) { %>
+        <div id="newcoin">
         <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
         </div>
+        <% } %>
         <br>
         <div class="product-grid">
           <table id="product-table">
@@ -49,6 +51,7 @@
                 <th>24H CHANGE </th>
                 <th>24H VOLUME</th>
                 <th>7D CHART</th>
+                <th>ADD/INFO</th>
               </tr>
               <tr id="new-coin-row">
                 <td><input type="text" placeholder="Insert new name" required id="new-name"></td>
@@ -74,9 +77,11 @@
                   <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
                     <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
                     <a href="/product-info/<%= product._id %>"><img src="/img/info.png" alt="" id="info"></a>
+                    <% if (ifAdmin) { %>
                     <img c src="/img/trash-can.png" alt="" id ="delete" onclick="deleteItem('<%= product._id %>')">
                     <img src="/img/edit.png" alt=""id ="edit" onclick="editItem('<%= product._id %>')">
                   <button class="save-btn" id="save-<%=product._id%>" onclick="saveEditedItem('<%=product._id%>')">save</button>
+                    <% } %>
               </td>
                   </tr>
                   <!-- <tr id="new-row" style="display: none;">

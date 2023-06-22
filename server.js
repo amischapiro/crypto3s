@@ -40,8 +40,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-  const currUserName = req.cookies.currUserName;
+  const currUserName = req.cookies.username;
+  if(!currUserName){
+    res.send('<h1>you must log in to visit this site</h1>')
+  }else{
     res.render('home', { title: 'Home',googleKey,currUserName});
+  }
   });
 app.get('/login', (req, res) => {
   let isusername = false
@@ -53,15 +57,25 @@ app.get('/signup', (req, res) => {
   res.render('signup', { title: 'signup Page',isuser});
 });
 
-
 app.get('/products', (req, res) => {
-  Product.find()
-  .then(products => {
-    res.render('products', { title: 'Products Page',products });
-  })
-  .catch(error => {
-    console.error('Error fetching products:', error);
-  });
+  const currUserName = req.cookies.username
+  let ifAdmin = false;
+  if(currUserName=='admin'){
+    ifAdmin= true
+  }
+
+  if(!currUserName){
+    res.send('<h1>you must log in to visit this site</h1>')
+  }else{
+    Product.find()
+    .then(products => {
+      res.render('products', { title: 'Products Page',products,ifAdmin });
+    })
+    .catch(error => {
+      console.error('Error fetching products:', error);
+    });
+
+  }
 });
 
 app.post('/cart/add/:productId', (req, res) => {
@@ -224,8 +238,13 @@ app.get('/addProduct', (req, res) => {
     console.error('Error fetching products:', error);
   });
 });
+
 app.get('/product-info/:productId', (req, res) => {
     const productId = req.params.productId;
+    const currUserName = req.cookies.username;
+    if(!currUserName){
+      res.send('<h1>you must log in to visit this site</h1>')
+    }else{
     Product.findOne({ _id: productId })
     .then(product => {
       if (product) {
@@ -237,9 +256,9 @@ app.get('/product-info/:productId', (req, res) => {
     .catch(error => {
       console.error('Error fetching product:', error);
     });
-  
-
+  }
 });
+
 app.post('/addProduct',(req,res)=>{
   console.log(req.body);
 })
@@ -291,7 +310,10 @@ app.get('/coin-rates', (req, res) => {
 app.get('/cart', async (req, res) => {
   try {
     
-    const currUserName = req.cookies.username    
+    const currUserName = req.cookies.username 
+    if(!currUserName){
+      res.send('<h1>you must log in to visit this site</h1>')
+    }else{ 
     const user = await User.findOne({ username: currUserName });
     if (user) {
       const cartItems = [];
@@ -310,9 +332,11 @@ app.get('/cart', async (req, res) => {
     } else {
       console.log('User not found');
     }
+  }
   } catch (error) {
     console.error('Error fetching user:', error);
   }
+
 });
 
 app.put('/cart/:itemId', (req, res) => {
@@ -422,15 +446,12 @@ app.post('/checkout', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 app.get('/order-history', async (req, res) => {
   try {
     const currUserName = req.cookies.username;
+    if(!currUserName){
+      res.send('<h1>you must log in to visit this site</h1>')
+    }else{
     const user = await User.findOne({ username: currUserName });
     if (user) {
       const allOrders = await Order.find({user:user._id}).populate('products.product');
@@ -457,6 +478,7 @@ app.get('/order-history', async (req, res) => {
     } else {
       console.log('User not found');
     }
+  }
   } catch (error) {
     console.error('Error fetching order history:', error);
   }
