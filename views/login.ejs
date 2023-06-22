@@ -7,6 +7,7 @@
     <title><%= title %></title>
 </head>
 <body>
+  <img src="public/img/cryptlogo.png" alt="3s">
            <% if (isusername) { %>
             <h3>the User" <%=username%> "does not exist.</h3>
            <% } %>
@@ -16,12 +17,26 @@
             <h3>pasworrd does not match.</h3>
            <% } %>
             <form action="/login" method="POST">
-              <label for="username">Username:</label>
-              <input type="text" id="username" name="username" autocomplete="off" required><br>
+              <div class="_6lux">
+                <input type="text" class="inputtext _55r1 _6luy" name="email" id="email" data-testid="royal_email" placeholder="Email address" autofocus="1" aria-label="Email address">
+              </div>
           
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" autocomplete="off" required><br>
+          
+              <div class="_6luy _55r1 _1kbt" id="passContainer">
+                <input type="password" class="inputtext _55r1 _6luy _9npi" name="pass" id="pass" data-testid="royal_pass" placeholder="Password" aria-label="Password">
+                <div class="_9ls7 hidden_elem" id="u_0_3_sN">
+                  <a href="#" role="button">
+                    <div class="_9lsa">
+                      <div class="_9lsb" id="u_0_4_Ye"></div>
+                    </div>
+                  </a>
+                </div>
+            
               <button type="submit">Login</button>
+
+              <div class="_6ltj">
+                <a href>create a new account</a>
+              </div>
             </form>
 </body>
 </html>
