@@ -211,7 +211,7 @@ function sortProducts() {
     var name = nameElement.innerText;
     var description = descriptionElement.innerText;
     var symbol = symbolElement.innerText;
-    var price = priceElement.innerText;
+    var price = priceElement.dataset.price;
     var change = changeElement.innerText;
     var volume = volumeElement.innerText;
   
