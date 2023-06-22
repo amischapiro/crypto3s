@@ -167,8 +167,6 @@ function addToCart(productId,name) {
       }
     });
   }
-  
-
 
   const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', searchProducts);
@@ -199,13 +197,6 @@ function sortProducts() {
   });
 }
 
-
-
-
-
-
-
-  /////////////need to be fixed////////////////
   function editItem(productId) {
     // Get the row elements to be edited
     var nameElement = document.getElementById("name-" + productId);
