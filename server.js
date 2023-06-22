@@ -49,6 +49,9 @@ app.use('/order-history',orderHistoryRoutes);
 const logoutRoutes = require('./routers/logout')
 app.use('/logout',logoutRoutes);
 
+const productInfoRoutes = require('./routers/product-info')
+app.use('/product-info',productInfoRoutes);
+
 
 
 app.listen(port, () => {
