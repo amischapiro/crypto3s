@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html>
-  
 <head>
     <link rel="stylesheet" href="css/styles.css"> 
     <link rel="stylesheet" href="css/login.css"> 
     <title><%= title %></title>
 </head>
 <body>
-           <% if (isusername) { %>
-            <h3>the User" <%=username%> "does not exist.</h3>
-           <% } %>
+    <div class="container">
+        <% if (isusername) { %>
+            <h3>User <%=username%> does not exist.</h3>
+        <% } %>
 
-           <% if (isuserpassword) { %>
+        <% if (isuserpassword) { %>
+            <h3>Password does not match.</h3>
+        <% } %>
 
-            <h3>pasworrd does not match.</h3>
-           <% } %>
-            <form action="/login" method="POST">
-              <label for="username">Username:</label>
-              <input type="text" id="username" name="username" autocomplete="off" required><br>
-          
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" autocomplete="off" required><br>
-              <button type="submit">Login</button>
-            </form>
+        <form action="/login" method="POST">
+            <h2 style="text-align: center;">Login Page</h2> 
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" autocomplete="off" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" autocomplete="off" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <p style="text-align: center; margin-top: 10px;">Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
 </body>
 </html>
-
-
