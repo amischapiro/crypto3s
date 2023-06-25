@@ -98,7 +98,7 @@ function deleteItem(element,index) {
   function checkout() {
     const currUserName = getCookie('currUserName');
   
-    fetch('/checkout', {
+    fetch('/cart/checkout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

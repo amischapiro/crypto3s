@@ -90,25 +90,6 @@ function addToCart(productId,name) {
     newProduct.change = change
     newProduct.volume = volume
 
-    // var newRowHTML = `
-    //   <tr>
-    //     <td>${name}</td>
-    //     <td>${description}</td>
-    //     <td>${symbol}</td>
-    //     <td>${price}</td>
-    //     <td>${change}</td>
-    //     <td>${volume}</td>
-    //     <td></td>
-    //     <td>
-    //       <input type="number" id="add-quantity-${name}" min="1" value="1">
-    //       <img src="/img/plus.png" id ="add" alt="" onclick="addToCart('${name}')">
-    //       <a href="/product-info/${name}"><img src="/img/info.png" id= "info" alt=""></a>
-    //       <img src="/img/trash-can.png" id ="delete" alt="" onclick="deleteItem('${name}')">
-    //       <img src="/img/edit.png" id = "edit" alt="" onclick="editItem('${name}')">
-    //     </td>
-    //   </tr>
-    // `;
-    // document.getElementById("product-table").insertAdjacentHTML("beforeend", newRowHTML);
     document.getElementById("new-coin-row").style.display = "none";
 
     console.log('newProduct:', newProduct);
@@ -133,11 +114,6 @@ function addToCart(productId,name) {
       });
   
   }
-
-
-
-
-
 
   function searchProducts() {
     const searchInput = document.getElementById('search-input');
@@ -211,7 +187,7 @@ function sortProducts() {
     var name = nameElement.innerText;
     var description = descriptionElement.innerText;
     var symbol = symbolElement.innerText;
-    var price = priceElement.innerText;
+    var price = priceElement.dataset.price;
     var change = changeElement.innerText;
     var volume = volumeElement.innerText;
   
