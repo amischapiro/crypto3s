@@ -58,3 +58,6 @@
         button[type="submit"]:hover {
             background-color: #0052a3;
         }
+        button[type="submit"]:hover {
+            background-color: #00cc00; /* Green color when hovered */
+        }

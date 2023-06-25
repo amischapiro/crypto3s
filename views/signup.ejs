@@ -3,67 +3,6 @@
 <head>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/signup.css">
-    <style>
-        body {
-            background-color: #f2f2f2;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            background-color: #ffffff;
-            max-width: 400px;
-            padding: 40px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-
-        h3 {
-            text-align: center;
-            color: #333333;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            margin-bottom: 10px;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background-color: #0066cc;
-            border: none;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #0052a3;
-        }
-    </style>
     <title><%= title %></title>
 </head>
 <body>
@@ -73,6 +12,8 @@
         <% } %>
 
         <form action="/signup" method="POST">
+            <h2 style="text-align: center;">Sign Up Page</h2> 
+
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" autocomplete="off" required>
 
@@ -81,7 +22,7 @@
 
             <button type="submit">Sign Up</button>
         </form>
-        
+        <p style="text-align: center; margin-top: 10px;">Already have an account? <a href="./login">Log in</a></p>
     </div>
 </body>
 </html>
