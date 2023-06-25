@@ -98,3 +98,6 @@ html, body {
     }
   }
  
+  #username-container{
+    text-transform: capitalize;
+  }

@@ -18,73 +18,153 @@ app.use(cookieParser());
 
 
 
+// router.get('/', async (req, res) => {
+//     try {
+//       const currUserName = req.cookies.username;
+//       if(!currUserName){
+//         res.send('<h1>you must log in to visit this site</h1>')
+//       }else{
+//         if (currUserName ==='admin') {
+//             const allOrders = await Order.find().populate('products.product');
+//         let orders = [];
+
+//         allOrders.forEach(order => {
+//           const products = order.products.map(product => ({
+//             _id: product.product._id,
+//             name: product.product.name,
+//             price: product.product.price,
+//             quantity: product.quantity
+//           }));
+//           orders.push({
+//             _id: order._id,
+//             user: order.user,
+//             products,
+//             totalAmount: order.totalAmount,
+//             orderDate: order.orderDate
+//           });
+//         });
+//         const orderHistory = orders;
+
+//         res.render('order-history', { title: 'Order History Page', orderHistory });
+//         } else {
+            
+        
+//       const user = await User.findOne({ username: currUserName });
+//       if (user) {
+//         const allOrders = await Order.find({user:user._id}).populate('products.product');
+//         let orders = [];
+        
+//           allOrders.forEach(order => {            
+//             const products = order.products.map(product => ({
+//               _id: product.product._id,
+//               name: product.product.name,
+//               price: product.product.price,
+//               quantity: product.quantity
+//             }));
+//             orders.push({
+//               _id: order._id,
+//               user: order.user,
+//               products,
+//               totalAmount: order.totalAmount,
+//               orderDate: order.orderDate
+//             });
+//           });
+//         const orderHistory = orders
+    
+//         res.render('order-history', { title: 'Order History Page', orderHistory });
+//       } else {
+//         console.log('User not found');
+//       }
+//     }
+// }
+//     } catch (error) {
+//       console.error('Error fetching order history:', error);
+//     }
+//   });
+  
+  
+
+
+
+
+
 router.get('/', async (req, res) => {
     try {
       const currUserName = req.cookies.username;
-      if(!currUserName){
-        res.send('<h1>you must log in to visit this site</h1>')
-      }else{
-        if (currUserName ==='admin') {
-            const allOrders = await Order.find().populate('products.product');
-        let orders = [];
+      if (!currUserName) {
+        res.send('<h1>You must log in to visit this site</h1>');
+      } else {
+        if (currUserName === 'admin') {
+        //   const allOrders = await Order.find().populate('user').populate('products.product')
+        const allOrders = await Order.find();
 
-        allOrders.forEach(order => {
-          const products = order.products.map(product => ({
-            _id: product.product._id,
-            name: product.product.name,
-            price: product.product.price,
-            quantity: product.quantity
-          }));
-          orders.push({
-            _id: order._id,
-            user: order.user,
-            products,
-            totalAmount: order.totalAmount,
-            orderDate: order.orderDate
-          });
-        });
-        const orderHistory = orders;
-
-        res.render('order-history', { title: 'Order History Page', orderHistory });
-        } else {
-            
+        const populatedOrders = await Promise.all(
+          allOrders.map(async (order) => {
+            // Populate the user field
+            const populatedUser = await User.findById(order.user);
         
-      const user = await User.findOne({ username: currUserName });
-      if (user) {
-        const allOrders = await Order.find({user:user._id}).populate('products.product');
-        let orders = [];
+            // Populate the products field
+            const populatedProducts = await Promise.all(
+              order.products.map(async (product) => {
+                const populatedProduct = await Product.findById(product.product);
+                return {
+                  _id: populatedProduct._id,
+                  name: populatedProduct.name,
+                  price: populatedProduct.price,
+                  quantity: product.quantity
+                };
+              })
+            );
         
-          allOrders.forEach(order => {            
-            const products = order.products.map(product => ({
-              _id: product.product._id,
-              name: product.product.name,
-              price: product.product.price,
-              quantity: product.quantity
-            }));
-            orders.push({
+            // Return the populated order
+            return {
               _id: order._id,
-              user: order.user,
-              products,
+              user: populatedUser.username, // Show the username of the user who made the order
+              products: populatedProducts,
               totalAmount: order.totalAmount,
               orderDate: order.orderDate
+            };
+          })
+        );
+        
+        const orderHistory = populatedOrders;
+        
+        res.render('order-history', { title: 'Order History Page', orderHistory,isAdmin:true });
+        
+        } else {
+          const user = await User.findOne({ username: currUserName });
+          if (user) {
+            const allOrders = await Order.find({ user: user._id }).populate('products.product');
+            let orders = [];
+  
+            allOrders.forEach(order => {
+              const products = order.products.map(product => ({
+                _id: product.product._id,
+                name: product.product.name,
+                price: product.product.price,
+                quantity: product.quantity
+              }));
+              orders.push({
+                _id: order._id,
+                user: order.user,
+                products,
+                totalAmount: order.totalAmount,
+                orderDate: order.orderDate
+              });
             });
-          });
-        const orderHistory = orders
-    
-        res.render('order-history', { title: 'Order History Page', orderHistory });
-      } else {
-        console.log('User not found');
+            const orderHistory = orders;
+  
+            res.render('order-history', { title: 'Order History Page', orderHistory,isAdmin:false });
+          } else {
+            console.log('User not found');
+          }
+        }
       }
-    }
-}
     } catch (error) {
       console.error('Error fetching order history:', error);
     }
   });
   
-  
-
-
 
 
 
