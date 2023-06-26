@@ -11,6 +11,10 @@
             <h3>User <%=username%> already exists.</h3>
         <% } %>
 
+        <% if (!isSingleWord) { %>
+            <h3>Username must be one word.</h3>
+        <% } %>
+
         <form action="/signup" method="POST">
             <h2 style="text-align: center;">Sign Up Page</h2> 
 

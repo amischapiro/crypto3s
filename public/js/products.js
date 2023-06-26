@@ -1,4 +1,6 @@
 
+
+
 var newProduct = {
   name:"",
   description:"",
@@ -19,7 +21,9 @@ var updatedData = {
 function addToCart(productId,name) {    
     const quantityInput = document.getElementById(`add-quantity-${productId}`)
     quantity = quantityInput.value;
-    
+    if(quantity<=0){
+      return;
+    }
     
     fetch(`/cart/add/${productId}`, {
       method: 'POST',
@@ -44,10 +48,12 @@ function addToCart(productId,name) {
   function addModal(name){
     const modal = document.getElementById('addModal')
     const modalCoin = document.getElementById('addModal-coin')
-    modal.style.display = 'block'
+    // modal.style.display = 'block'
     modalCoin.innerText = 'Coin '+name;
+    modal.classList.add('show');
     setTimeout(() => {
-      modal.style.display = 'none'
+      // modal.style.display = 'none'
+      modal.classList.remove('show');
     }, 2000);
   }
 
@@ -83,6 +89,38 @@ function addToCart(productId,name) {
     var price = document.getElementById("new-price").value;
     var change = document.getElementById("new-change").value;
     var volume = document.getElementById("new-volume").value;
+    
+    const errorModal = document.getElementById('error-modal')
+    const errorMsg = document.getElementById('error-msg')
+    
+    if (!name ||!description ||!symbol|| !price || !change || !volume) {
+      errorMsg.innerText = "Error: Some fields are missing."
+      errorModal.style.display = 'block'
+      console.error("Error: Some fields are missing.");
+      return;
+    }
+    
+    if (symbol.length > 4) {
+      errorMsg.innerText = "Error: Symbol must be up to 4 letters."
+      errorModal.style.display = 'block'
+      console.error("Error: Symbol must be under 4 letters.");
+      return;
+    }
+    
+    if (isNaN(change)) {
+      errorMsg.innerText = "Error: Change must be a number."
+      errorModal.style.display = 'block'
+      console.error("Error: Change must be a number.");
+      return;
+    }
+    
+    if (price <= 0 || volume <= 0) {
+      errorMsg.innerText = "Error: Price and volume must be positive numbers."
+      errorModal.style.display = 'block'
+      console.error("Error: Price and volume must be positive numbers.");
+      return;
+    }
+
     newProduct.name = name
     newProduct.description = description
     newProduct.symbol = symbol
@@ -92,7 +130,6 @@ function addToCart(productId,name) {
 
     document.getElementById("new-coin-row").style.display = "none";
 
-    console.log('newProduct:', newProduct);
     
     fetch('/products', {
       method: 'POST',
@@ -101,12 +138,16 @@ function addToCart(productId,name) {
       },
       body: JSON.stringify(newProduct),
     })
-      .then(response => {
-        if (response.ok) {
-          console.log('Product created successfully');
-          window.location.href = '/products';
-        } else {
-          throw new Error('Error creating product');
+    .then(response => {
+      if (response.ok) {
+        console.log('Product created successfully');
+        window.location.href = '/products';
+      }else if(response.status === 409){
+      errorMsg.innerText = "Error: A coin with that name already exists."
+      errorModal.style.display = 'block'
+      console.error("Error: A coin with that name already exists.");
+      } else{
+        throw new Error('Error creating product');
         }
       })
       .catch(error => {
@@ -188,8 +229,8 @@ function sortProducts() {
     var description = descriptionElement.innerText;
     var symbol = symbolElement.innerText;
     var price = priceElement.dataset.price;
-    var change = changeElement.innerText;
-    var volume = volumeElement.innerText;
+    var change = changeElement.dataset.change;
+    var volume = volumeElement.dataset.volume;
   
     // Replace the elements with input fields containing the current values
     nameElement.innerHTML = "<input type='text' id='edit-name-" + productId + "' value='" + name + "'>";
@@ -214,25 +255,47 @@ function sortProducts() {
     var newPrice = document.getElementById("edit-price-" + productId).value;
     var newChange = document.getElementById("edit-change-" + productId).value;
     var newVolume = document.getElementById("edit-volume-" + productId).value;
+
+
+    const errorModal = document.getElementById('error-modal')
+    const errorMsg = document.getElementById('error-msg')
+
+    if (!newName ||!newDescription ||!newSymbol|| !newPrice || !newChange || !newVolume) {
+      errorMsg.innerText = "Error: Some fields are missing."
+      errorModal.style.display = 'block'
+      console.error("Error: Some fields are missing.");
+      saveBtn.style.display = 'block'
+      return;
+    }
+    
+    if (newSymbol.length > 4) {
+      errorMsg.innerText = "Error: Symbol must be up to 4 letters."
+      errorModal.style.display = 'block'
+      console.error("Error: Symbol must be under 4 letters.");
+      saveBtn.style.display = 'block'
+      return;
+    }
+    
+    if (isNaN(newChange)) {
+      errorMsg.innerText = "Error: Change must be a number."
+      errorModal.style.display = 'block'
+      console.error("Error: Change must be a number.");
+      saveBtn.style.display = 'block'
+      return;
+    }
+    
+    if (newPrice <= 0 || newVolume <= 0) {
+      errorMsg.innerText = "Error: Price and volume must be positive numbers."
+      errorModal.style.display = 'block'
+      console.error("Error: Price and volume must be positive numbers.");
+      saveBtn.style.display = 'block'
+      return;
+    }
   
-    // Update the row elements with the new values
-    var nameElement = document.getElementById("name-" + productId);
-    var descriptionElement = document.getElementById("description-" + productId);
-    var symbolElement = document.getElementById("symbol-" + productId);
-    var priceElement = document.getElementById("price-" + productId);
-    var changeElement = document.getElementById("change-" + productId);
-    var volumeElement = document.getElementById("volume-" + productId);
-  
-    nameElement.innerHTML = newName;
-    descriptionElement.innerHTML = newDescription;
-    symbolElement.innerHTML = newSymbol;
-    priceElement.innerHTML = newPrice;
-    changeElement.innerHTML = newChange;
-    volumeElement.innerHTML = newVolume;
   
   
-    // Send the updated data to the backend
-     updatedData = {
+  
+        updatedData = {
       name: newName,
       description: newDescription,
       symbol: newSymbol,
@@ -251,7 +314,13 @@ function sortProducts() {
       .then(response => {
         if (response.ok) {
           console.log("Product updated successfully");
-        } else {
+          window.location.href = '/products';
+        }else if(response.status === 409){
+          errorMsg.innerText = "Error: A coin with that name already exists."
+          errorModal.style.display = 'block'
+          console.error("Error: A coin with that name already exists.");
+          saveBtn.style.display = 'block'
+          } else {
           throw new Error("Error updating product");
         }
       })
@@ -260,3 +329,10 @@ function sortProducts() {
       });
   }
   
+
+  function exitModal(){
+    const errorModal = document.getElementById('error-modal')
+    const errorMsg = document.getElementById('error-msg')
+    errorMsg.innerText = ""
+    errorModal.style.display = 'none'
+  }

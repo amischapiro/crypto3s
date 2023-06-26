@@ -103,8 +103,6 @@
     margin-top: auto;
   }
   .cart-title {
-    /* display: flex;
-    align-items: center; */
     text-decoration: underline;
   }
   
@@ -123,6 +121,13 @@
     font-size: 16px;
     text-align: center;
     cursor: pointer;
+    text-shadow: 1px 1px 2px black;
+    border-radius: 5px;
+  }
+  .checkout-btn:hover{
+    background-color: cyan;
+    color: black;
+    text-shadow: none;
   }
   
   .empty-cart {

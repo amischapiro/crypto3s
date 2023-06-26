@@ -11,6 +11,7 @@ const { Query } = require('mongoose');
 const Product = require('./models/product')
 const User = require('./models/user')
 const Order = require('./models/order')
+const Location = require('./models/location')
 const mongoKey = config.mongoKey
 mongoose.connect(mongoKey)
 .then(()=>{
@@ -18,7 +19,6 @@ mongoose.connect(mongoKey)
 }).catch(err=>{
   console.log("no connection",err);
 })
-
 
 app.set('view engine', 'ejs');
 
@@ -51,6 +51,8 @@ app.use('/logout',logoutRoutes);
 
 const productInfoRoutes = require('./routers/product-info')
 app.use('/product-info',productInfoRoutes);
+
+
 
 
 

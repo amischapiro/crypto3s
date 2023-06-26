@@ -4,14 +4,20 @@ const router = express.Router()
 const axios = require('axios');
 const config = require('../config')
 const googleKey = config.googleKey
+const Location = require('../models/location')
+
 
 
 router.get('/', (req, res) => {
     const currUserName = req.cookies.username;
+    let ifAdmin = false;
+    if(currUserName=='admin'){
+      ifAdmin= true
+    }
     if(!currUserName){
       res.send('<h1>you must log in to visit this site</h1>')
     }else{
-      res.render('home', { title: 'Home',googleKey,currUserName});
+      res.render('home', { title: 'Home',googleKey,currUserName,ifAdmin});
     }
     });
 
@@ -58,7 +64,53 @@ router.get('/', (req, res) => {
             res.status(500).send('Failed to fetch coin rates');
           });
       
+    });
+
+    router.get("/locations", async (req, res) => {
+        try {
+          const locations = await Location.find({}, { _id: 0, __v: 0 });
+          res.json(locations);
+        } catch (error) {
+          console.error("Error fetching locations:", error);
+          res.status(500).json({ error: "Internal server error" });
+        }
       });
+
+      
+      
+      
+      router.post('/create-post', async (req, res) => {
+        const pageAccessToken = config.FBkey;
+        const pageId = '112159501922363';
+        const message = req.body.message; // Assuming the client sends the message in the request body
+      
+        try {
+          const url = `https://graph.facebook.com/${pageId}/feed`;
+          const params = {
+            message: message,
+            access_token: pageAccessToken,
+          };
+      
+          const response = await axios.post(url, params);
+      
+          if (response.status === 200) {
+            const postId = response.data.id;
+            console.log('Text post created successfully!');
+            console.log('Post ID:', postId);
+            res.status(200).json({ success: true, postId: postId });
+          } else {
+            const errorMessage = response.data.error.message;
+            console.log('Error creating text post:', errorMessage);
+            res.status(400).json({ success: false, error: errorMessage });
+          }
+        } catch (error) {
+          console.log('An error occurred:', error.message);
+          res.status(500).json({ success: false, error: 'An error occurred' });
+        }
+      });
+
+
+
 
 module.exports = router;
 

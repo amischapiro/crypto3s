@@ -54,12 +54,17 @@ table {
     font-size: 1.5rem;
     text-align: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    display: none;
-    border: 4px solid mediumblue;
+    border: 4px solid gray;
+    opacity: 0;
+    transition: opacity 0.3s ease; 
   }
 
+  #addModal.show {
+    opacity: 1; 
+  }
 
 
   #search-results{
@@ -85,6 +90,64 @@ table {
   .save-btn{
     display: none;
   }
+  #search-input{
+    width: 30%;
+    height: 2rem;
+    font-size: 1.5rem;
+  }
+  .top-container{
+    margin-bottom: 2rem;
+  }
+  .search-container,.sort-container{
+    font-size: 1.5rem;
+  }
+  select{
+    font-size: 1.2rem;
+  }
   
+ #addnew{
+  background-color: lightgreen;
+  height: 2rem;
+  border-radius: 5px;
+  border: gray 1px solid;
+  cursor: pointer;
+  position: relative;
+  left: 5%;
+  margin-bottom: 1rem;
+ }
+ #addnew:hover{
+  background-color: greenyellow;
+ }
+
+  #error-modal{
+    position: fixed;
+    height: 20%;
+    width: 30%;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: yellow;
+    color: red;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    border: 4px solid gray;
+  }
+  #error-modal button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: yellow;
+    cursor: pointer;
+  }
+  #error-modal button:hover{
+    background-color: black;
+    color: white;
+  }
 
   

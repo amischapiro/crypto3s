@@ -20,20 +20,26 @@ app.use(cookieParser());
 
 router.get('/', (req, res) => {
     let isuser = false
-    res.render('signup', { title: 'signup Page',isuser});
+    res.render('signup', { title: 'signup Page',isuser,isSingleWord:true});
   });
 
 
-  router.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
     const { username, password } = req.body;
     let isuser;
+    let isSingleWord = true;
+
+    isSingleWord = /^[^\s]+$/.test(username);
+
     try {
       const foundUser = await User.findOne({ username: username });
   
-      if (foundUser) {
-        isuser = true;
-        res.render('signup', { title: 'signup Page', isuser,username });
-      } else {
+      if (!isSingleWord) {
+          res.render('signup', { title: 'signup Page', isuser,username,isSingleWord });
+        } else if(foundUser){
+          isuser = true;
+          res.render('signup', { title: 'signup Page', isuser,username,isSingleWord });
+      }else {
         const newUser = new User({
           username: username,
           password: password
@@ -45,7 +51,7 @@ router.get('/', (req, res) => {
       console.error(error);
       res.redirect('/error');
     }
-  });
+});
 
 
 module.exports = router

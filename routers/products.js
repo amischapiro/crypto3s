@@ -38,26 +38,35 @@ router.get('/', (req, res) => {
     }
   });
 
-  router.post('/', (req, res) => {
-    const { name,description, symbol, price, change, volume } = req.body;
-    const newProduct = new Product({
-      name: name,
-      description:description,
-      symbol: symbol,
-      price: price,
-      change: change,
-      volume: volume
-    });
-    newProduct.save()
-      .then(savedProduct => {
-        console.log('Product created successfully:', savedProduct);
-        res.sendStatus(200);
-      })
-      .catch(error => {
-        console.error('Error creating product:', error);
-        res.sendStatus(500);
+
+router.post('/', async (req, res) => {
+    const { name, description, symbol, price, change, volume } = req.body;
+  
+    try {
+      const existingProduct = await Product.findOne({ name: name });
+  
+      if (existingProduct) {
+        return res.sendStatus(409);
+      }
+  
+      const newProduct = new Product({
+        name: name,
+        description: description,
+        symbol: symbol,
+        price: price,
+        change: change,
+        volume: volume
       });
+  
+      const savedProduct = await newProduct.save();
+      console.log('Product created successfully:', savedProduct);
+      res.sendStatus(200);
+    } catch (error) {
+      console.error('Error creating product:', error);
+      res.sendStatus(500);
+    }
   });
+  
 
 
 
@@ -132,31 +141,41 @@ router.get('/search', (req, res) => {
       )
   })
   
-  router.put('/:productId', (req, res) => {
+
+
+
+router.put('/:productId', async (req, res) => {
     const productId = req.params.productId;
     const { name, description, symbol, price, change, volume } = req.body;
   
-    Product.findByIdAndUpdate(productId, {
-      name: name,
-      description: description,
-      symbol: symbol,
-      price: price,
-      change: change,
-      volume: volume
-    })
-      .then(updatedProduct => {
-        if (updatedProduct) {
-          console.log('Product updated successfully:', updatedProduct);
-          res.sendStatus(200);
-        } else {
-          throw new Error('Product not found');
-        }
-      })
-      .catch(error => {
-        console.error('Error updating product:', error);
-        res.sendStatus(500);
+    try {
+      const existingProduct = await Product.findOne({ name: name });
+  
+      if (existingProduct && existingProduct._id != productId) {
+        return res.sendStatus(409);
+      }
+  
+      const updatedProduct = await Product.findByIdAndUpdate(productId, {
+        name: name,
+        description: description,
+        symbol: symbol,
+        price: price,
+        change: change,
+        volume: volume
       });
+  
+      if (updatedProduct) {
+        console.log('Product updated successfully:', updatedProduct);
+        res.sendStatus(200);
+      } else {
+        throw new Error('Product not found');
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+      res.sendStatus(500);
+    }
   });
+  
   
 
 module.exports = router;
