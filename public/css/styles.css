@@ -58,8 +58,8 @@ html, body {
     height: auto; 
     width: 5rem;
     padding: 0;
-    top: 50%;
-    transform: translateY(25%);
+    /* top: 50%;
+    transform: translateY(25%); */
     
   }
   .nav-container{
@@ -68,7 +68,10 @@ html, body {
     justify-content: space-between;
     align-items: center;
   }
-  
+  .nav-links{
+    display: flex;
+    align-items: center;
+  }
 
   .product-grid {
     display: grid;

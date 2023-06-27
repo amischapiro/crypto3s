@@ -19,6 +19,9 @@ function updateTableData(coinData) {
     coinData.forEach(coin => { 
     let coinSymbol = coin.symbol;
     let coinPrice = coin.rate
+    let imageUrl = coin.image;
+    console.log('imageUrl:', imageUrl);
+    
     if(coin.rate<1){
       coinPrice = parseFloat(coin.rate).toFixed(8)
     }else{
@@ -28,6 +31,7 @@ function updateTableData(coinData) {
     const coinVolume = coin.volume_24h.toLocaleString();
 
     // Update table data for each coin
+    $('#' + coinSymbol + '-img').html(`<img src="${imageUrl}" alt="${coinSymbol}">`);
     $('#' + coinSymbol + '-sym').text(coinSymbol);
     $('#' + coinSymbol + '-rate').text('$' + coinPrice);
     $('#' + coinSymbol + '-vol').text('$' + coinVolume);
@@ -60,38 +64,6 @@ function fetchCoinData() {
 }
 
 
-
-let map;
-
-async function initMap() {
-  const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-  const response = await fetch("/locations");
-  const locations = await response.json();
-  console.log('locations:', locations);
-  
-
-  map = new Map(document.getElementById("map"), {
-    zoom: 8,
-    center: locations[0],
-    mapId: "DEMO_MAP_ID",
-  });
-
-  locations.forEach(location => {
-    const marker = new AdvancedMarkerElement({
-      map: map,
-      position: location,
-      title: location.title,
-    });
-    const infoWindow = new google.maps.InfoWindow({
-      content: location.title,
-    });
-    infoWindow.open(map, marker);
-  });
-}
-
-initMap();
 
 
 

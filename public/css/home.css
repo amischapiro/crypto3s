@@ -3,12 +3,7 @@
     src: url('/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype');
   }
   
-#map{
-    margin: auto;
-    margin-top: 4rem;
-    height: 300px;
-    width: 60%;
-}
+
 
 table {
     width: 80%;
@@ -35,6 +30,11 @@ th {
 }
 td{
     color: black;
+    text-align: center;
+}
+td img{
+    width: 2rem;
+    height: auto;
 }
 tr{
     background-color: turquoise;
@@ -137,12 +137,3 @@ tr:hover {
     margin-left: 5px;
   }
 
-  #fb-qr{
-    color: white;
-    text-align: center;
-  }
-  #fb-qr img{
-    width: 6rem;
-    height: auto;
-    margin: 0;
-  }

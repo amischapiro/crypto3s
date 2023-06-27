@@ -1,0 +1,85 @@
+
+h1{
+    color: white;
+    text-align: center;
+    text-decoration: underline;
+}
+
+#fb-qr{
+    color: white;
+    text-align: center;
+}
+#fb-qr img{
+    width: 6rem;
+    height: auto;
+    margin: 0;
+}
+
+h3{
+    color: white;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#map{
+    margin: auto;
+    margin-top: 1rem;
+    height: 300px;
+    width: 60%;
+}
+
+
+
+h2{
+    color: white;
+}
+
+p{
+    color: white;
+}
+
+
+aside {
+    width: 40%;
+    padding-left: 0.5rem;
+    margin-left: 0.5rem;
+    float: right;
+    box-shadow: inset 5px 0 5px -5px #29627e;
+    font-style: italic;
+    color: #29627e;
+}
+.about-crypto h2{
+    color: brown;
+}
+
+aside > p {
+    margin: 0.5rem;
+}
+
+p {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 1.2rem;
+    color: black;
+}
+.about-crypto{
+    width: 80%; 
+    margin: 0 auto;
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+}
+
+    .about-us{
+        color: black;
+        column-count: 3;
+        column-gap: 20px; 
+        width: 80%; 
+        margin: 0 auto;
+        margin-bottom: 2rem;
+        font-size: 1.2rem;
+        column-rule: 2px solid white;   
+        background-color: lightgray;
+        padding: 10px;
+        border-radius: 5px;
+    }
