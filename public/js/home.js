@@ -61,60 +61,62 @@ function fetchCoinData() {
 
 
 
-
-
-
-
-
-
-
-
-
 let map;
-  
+
 async function initMap() {
-  const position = { lat: 32.467151, lng: 34.952718 };
-  const position2 = { lat: 32.059327, lng: 34.827765 };
-  const position3 = { lat: 32.136827, lng: 34.898346 };
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
+  const response = await fetch("/locations");
+  const locations = await response.json();
+  console.log('locations:', locations);
+  
+
   map = new Map(document.getElementById("map"), {
     zoom: 8,
-    center: position,
+    center: locations[0],
     mapId: "DEMO_MAP_ID",
   });
 
-  const marker1 = new AdvancedMarkerElement({
-    map: map,
-    position: position,
-    title: "Ami-home",
+  locations.forEach(location => {
+    const marker = new AdvancedMarkerElement({
+      map: map,
+      position: location,
+      title: location.title,
+    });
+    const infoWindow = new google.maps.InfoWindow({
+      content: location.title,
+    });
+    infoWindow.open(map, marker);
   });
-  const marker2 = new AdvancedMarkerElement({
-    map: map,
-    position: position2,
-    title: "Roy-home",
-  });
-  const marker3 = new AdvancedMarkerElement({
-    map: map,
-    position: position3,
-    title: "Shaked-home",
-  });
-  const infoWindow1 = new google.maps.InfoWindow({
-    content: "Ami's home",
-  });
-
-  const infoWindow2 = new google.maps.InfoWindow({
-    content: "Roy's home",
-  });
-  const infoWindow3 = new google.maps.InfoWindow({
-    content: "Shaked's home",
-  });
-
-  infoWindow1.open(map, marker1);
-  infoWindow2.open(map, marker2);
-  infoWindow3.open(map, marker3);
-  
 }
 
 initMap();
+
+
+
+function createTextPost() {
+  const message = document.getElementById('fb-msg').value; 
+  if(!message){
+    return
+  }
+  fetch('/create-post', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message: message }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log('Text post created successfully!');
+        console.log('Post ID:', data.postId);
+      } else {
+        console.log('Error creating text post:', data.error);
+      }
+    })
+    .catch(error => {
+      console.log('An error occurred:', error.message);
+    });
+}

@@ -92,7 +92,24 @@
                     <td id="xlm-vol"></td>
                   </tr>
               </table>
-              
+              <div id="fb-qr">
+                <h2>Follow Our Facebook Page!</h2>
+                <img src="img/frame.png" alt="">
+              </div>
+              <%if(ifAdmin){%>
+              <form onsubmit="createTextPost()">
+                <div class="fb-head">
+                  <h4>Create a Facebook post</h4><img src="img/icons8-facebook-50.png" alt="">
+                </div>
+                <textarea  id="fb-msg" cols="30" rows="10" placeholder="Enter post text here..." required autocomplete="off"></textarea>
+                <button>POST</button>
+              </form>
+              <%}%>
+              <div class="video-container">
+                <video controls autoplay loop id="video">
+                  <source src="img/mixkit-stack-of-bitcoins-rotating-30641-medium.mp4"  type="video/mp4">
+                </video>
+              </div>
             <div id="map"></div>
         </div>
         <%- include('partials/footer') %>

@@ -20,6 +20,9 @@
             <li>
               <h3>Order ID: <%= order._id %></h3>
               <p>Order Date: <%= order.orderDate.toLocaleDateString('en-GB') %></p>
+              <%if(isAdmin){%>
+              <p>Ordered By User: <%= order.user %></p> 
+              <%}%>
             <table class="order-table">
               <thead>
                 <tr>
