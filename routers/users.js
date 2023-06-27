@@ -57,7 +57,26 @@ router.get('/', (req, res) => {
     }
   });
   
-
+  router.get('/search', (req, res) => {
+    const searchQuery = req.query.q;
+  
+    const regex = new RegExp(searchQuery, 'i');
+    const searchCondition = {
+      $or: [
+        { username: regex }
+      ]
+    };
+  
+    User.find(searchCondition)
+      .then(users => {
+        res.json(users);
+      })
+      .catch(error => {
+        console.error('Error searching users:', error);
+        res.sendStatus(500);
+      });
+  });
+  
 
 
 
