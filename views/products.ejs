@@ -13,9 +13,8 @@
     <div class="main-container">
       <%- include ('partials/header') %>
     <div class="content">
-        <div class="search-container">
+      <div class="top-container">
           <input type="text" id="search-input" placeholder="Search products...">
-        </div>
         <div class="search-container">
           <label for="filter-select">Search By:</label>
           <select id="filter-select">
@@ -33,17 +32,22 @@
             <option value="volume">Volume</option>
           </select>
         </div>
+      </div>
        
       
       <div id="addModal">
         <p id="addModal-coin"></p> Has been added to your cart
+      </div>
+      <div id="error-modal">
+        <button onclick="exitModal()">x</button>
+        <p id="error-msg"></p>
       </div>
       <% if (ifAdmin) { %>
         <div id="newcoin">
         <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
         </div>
         <% } %>
-        <div class="product-grid">
+      <div class="product-grid">
           <table id="product-table">
             <thead>
               <tr>
@@ -73,7 +77,13 @@
                   <td id="description-<%=product._id%>"><%= product.description %></td>
                   <td id="symbol-<%=product._id%>"><%= product.symbol %></td>
                   <td id="price-<%=product._id%>" data-price="<%=product.price %>" >$<%= product.price.toLocaleString() %></td>
-                  <td data-change="<%=product.change %>" id="change-<%=product._id%>"><%= product.change %>%</td>
+                  <td data-change="<%=product.change %>" id="change-<%=product._id%>">
+                    <% if (product.change < 0) { %>
+                      <span style="color: red;"><%= product.change %>%</span>
+                    <% } else { %>
+                      <span style="color: green;">+<%= product.change %>%</span>
+                    <% } %>
+                  </td>
                   <td id="volume-<%=product._id%>" data-volume="<%=product.volume %>">$<%= parseInt(product.volume).toLocaleString() %></td>
                   <td><input type="number"  id="add-quantity-<%= product._id %>" min="1" value="1">
                     <img src="/img/plus.png" alt=""id ="add" onclick="addToCart('<%= product._id %>','<%= product.name %>')">
