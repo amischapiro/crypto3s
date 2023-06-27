@@ -52,6 +52,9 @@ app.use('/logout',logoutRoutes);
 const productInfoRoutes = require('./routers/product-info')
 app.use('/product-info',productInfoRoutes);
 
+const usersRoutes = require('./routers/users')
+app.use('/users',usersRoutes);
+
 
 
 
