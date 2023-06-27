@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/users.css">
+  <title>Users</title>
+</head>
+
+<body>
+  <div class="main-container">
+    <%- include ('partials/header') %>
+    <div class="content">
+      <div class="user">
+        <table id="user-table">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach((user) => { %>
+            <tr>
+              <td id="name-<%= user._id %>"><%= user.username %></td>
+            
+            <td id = "deleteUser"><img c src="/img/trash-can.png" alt="" onclick="deleteUser('<%= user._id %>')"></td>
+            <% }); %>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </div>
+  <script src="/js/users.js"></script>
+</body>
+
+</html>

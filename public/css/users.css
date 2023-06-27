@@ -1,0 +1,29 @@
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: auto;
+    border: gray 3px solid;
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  tr{
+    background-color: turquoise;
+  }
+ 
+  #deleteUser{
+    width: 20px;
+  }
+td img{
+    width: 10px;
+    height: auto;
+    cursor: pointer;
+}
