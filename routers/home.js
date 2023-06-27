@@ -40,7 +40,8 @@ router.get('/', (req, res) => {
                 symbol: coin.symbol,
                 rate: coin.current_price,
                 volume_24h: coin.total_volume,
-                change_24h: coin.price_change_percentage_24h
+                change_24h: coin.price_change_percentage_24h,
+                image:coin.image
               };
             });
       
@@ -50,10 +51,11 @@ router.get('/', (req, res) => {
                 rate: coin.rate,
                 symbol: coin.symbol,
                 volume_24h: coin.volume_24h,
-                change_24h: coin.change_24h
+                change_24h: coin.change_24h,
+                image:coin.image
               };
             });
-      
+                        
             res.json(coinRates);
           })
       
@@ -65,19 +67,6 @@ router.get('/', (req, res) => {
           });
       
     });
-
-    router.get("/locations", async (req, res) => {
-        try {
-          const locations = await Location.find({}, { _id: 0, __v: 0 });
-          res.json(locations);
-        } catch (error) {
-          console.error("Error fetching locations:", error);
-          res.status(500).json({ error: "Internal server error" });
-        }
-      });
-
-      
-      
       
       router.post('/create-post', async (req, res) => {
         const pageAccessToken = config.FBkey;

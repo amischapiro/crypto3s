@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/about.css">
+  <title>about</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <%- include('partials/header') %>
+        <div class="content">
+          <h1>About us</h1>
+          <p class="about-us">We are a team of three enthusiastic students, Amitai Schapiro, Roy Schwartz, and Shaked Shamai, working diligently on our exciting web applications project centered around the captivating world of cryptocurrency. As passionate individuals with a shared interest in this innovative technology, we have come together to create a platform that reflects our collective expertise and unique perspective. Thus, the name "Crypto3s" was born, representing the convergence of two significant elements: our focus on cryptocurrencies and the fact that all our last names commence with the letter 'S.' Through Crypto3s, we aim to provide a comprehensive and user-friendly experience, offering valuable insights, real-time data, and engaging features to empower users in their cryptocurrency endeavors. Together, we strive to make a lasting impact in the ever-evolving landscape of digital currencies.</p>
+          <div class="about-crypto">
+              <aside>
+                  <h2>Why Invest In Crypto?</h2>
+                </aside>
+                <p>Investing in crypto provides the potential for significant financial gains and diversification. Cryptocurrencies have a history of delivering substantial returns, offering the opportunity for wealth accumulation. The decentralized nature of crypto grants users greater control over their money, eliminating the need for intermediaries. Furthermore, the emergence of blockchain technology presents exciting possibilities for various industries, making crypto an investment at the forefront of innovation. However, it's important to note the risks associated with price volatility and regulatory uncertainties. Diligent research, diversification, and a long-term perspective are key for successful crypto investment.</p>
+            </div>
+          <div id="fb-qr">
+            <h2>Follow Our Facebook Page!</h2>
+            <img src="img/frame.png" alt="">
+          </div>
+          <hr>
+          <h3>Our Developers Addresses:</h3>
+          <div id="map"></div>
+        </div>      
+        <%- include('partials/footer') %>
+    </div>
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: '<%= googleKey%>' , v: "beta"});</script>             
+    <script src="js/about.js"></script>                  
+</body>
+
+</html>

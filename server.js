@@ -55,6 +55,9 @@ app.use('/product-info',productInfoRoutes);
 const usersRoutes = require('./routers/users')
 app.use('/users',usersRoutes);
 
+const aboutRoutes = require('./routers/about')
+app.use('/about',aboutRoutes);
+
 
 
 
