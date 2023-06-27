@@ -11,7 +11,7 @@
             <h3>User <%=username%> already exists.</h3>
         <% } %>
 
-        <form action="/signup" method="POST">
+        <form action="/signup" method="POST" onsubmit="return validatePasswords()">
             <h2 style="text-align: center;">Sign Up Page</h2> 
 
             <label for="username">Username:</label>
@@ -20,9 +20,26 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" autocomplete="off" required>
 
+            <label for="verify-password">Verify Password:</label>
+            <input type="password" id="verify-password" name="verify-password" autocomplete="off" required>
+
             <button type="submit">Sign Up</button>
         </form>
         <p style="text-align: center; margin-top: 10px;">Already have an account? <a href="./login">Log in</a></p>
     </div>
+
+    <script>
+        function validatePasswords() {
+            var password = document.getElementById("password").value;
+            var verifyPassword = document.getElementById("verify-password").value;
+
+            if (password !== verifyPassword) {
+                alert("Passwords do not match. Please enter the same password in both fields.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Proceed with form submission
+        }
+    </script>
 </body>
 </html>
