@@ -56,9 +56,10 @@ html, body {
   }
   .logo {
     height: auto; 
-    width: 3rem;
-    /* top: 50%; */
-    /* transform: translateY(35%); */
+    width: 5rem;
+    padding: 0;
+    top: 50%;
+    transform: translateY(25%);
     
   }
   .nav-container{

@@ -10,22 +10,28 @@
 </head>
 
 <body>
-  <div class="main-container">
-    <%- include('partials/header') %>
-    <div class="content">
-      <div class="product-info">
-        <h2><%= product.name %></h2>
-        <p>Price: $<%= product.price %></p>
-        <p>Description: $<%= product.description %></p>
-        <a href="/products/<%= product._id %>"></a>
-      </div>
-      <canvas id="myChart"></canvas>
+    <div class="main-container">
+        <%- include('partials/header') %>
+        <div class="content">
+            <div data-id="<%=product._id%>" class="product-info" id="product-info">
+                <h2><%= product.name %></h2>
+                <p>Description: <%= product.description %></p>
+                <p>Symbol: <%= product.symbol %></p>
+                <p id="price" data-price="<%=product.price%>">Price: $<%= product.price %></p>
+                <p id="change" data-change="<%=product.change%>">24/hr Change: <%= product.change %>%</p>
+                <p id="volume" data-volume="<%=product.volume%>">Volume: $<%= product.volume %></p>
+            </div>
+            <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                    <canvas id="changeChart"></canvas>
+                    <canvas id="volumeChart"></canvas>
+            </div>
+        </div>
+        <%- include('partials/footer') %>
     </div>
-    <%- include('partials/footer') %>
-  </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/products-info.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>

@@ -1,31 +1,309 @@
+
+
+//       document.addEventListener("DOMContentLoaded", function() {
+//   // Fetch product data
+//   fetch('/products/all')
+//     .then(response => response.json())
+//     .then(data => {
+//       const products = data.products;
+//       const currProductId = document.getElementById('product-info').dataset.id;
+      
+//       // Find the current product in the products array
+//       let currIndex
+//       products.forEach((product,i)=>{
+//         if(product._id===currProductId){
+//           currIndex = i
+//         }
+//       })
+      
+      
+//       // Extract the price, change, and volume values for all products
+//       const productNames = products.map(product => product.name);
+//       const prices = products.map(product => product.price);
+//       const changes = products.map(product => product.change);
+//       const volumes = products.map(product => product.volume);
+
+//       // Create the chart data
+//       const allData = {
+//         labels: productNames,//here
+//         datasets: [
+//           {
+//             label: 'Price',
+//             data: prices,
+//             borderColor: 'rgba(255, 99, 132, 1)',
+//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//             fill: false
+//           },
+//           {
+//             label: 'Change',
+//             data: changes,
+//             borderColor: 'rgba(54, 162, 235, 1)',
+//             backgroundColor: 'rgba(54, 162, 235, 0.5)',
+//             fill: false
+//           },
+//           {
+//             label: 'Volume',
+//             data: volumes,
+//             borderColor: 'rgba(75, 192, 192, 1)',
+//             backgroundColor: 'rgba(75, 192, 192, 0.5)',
+//             fill: false
+//           }
+//         ]
+//       };
+
+//       // Create the chart configuration
+//       const config = {
+//         type: 'line',
+//         data: allData,
+//         options: {
+//           responsive: true,
+//           scales: {
+//             y: {
+//               beginAtZero: true
+//             }
+//           }
+//         }
+//       };
+
+//       // Create the chart
+//       const ctx = document.getElementById('myChart').getContext('2d');
+//       const myChart = new Chart(ctx, config);
+//       myChart.update();
+//     })
+//     .catch(error => {
+//       console.error('Error fetching product data:', error);
+//     });
+// });
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// document.addEventListener("DOMContentLoaded", function() {
+//   // Fetch product data
+//   fetch('/products/all')
+//     .then(response => response.json())
+//     .then(data => {
+//       const products = data.products;
+//       const currProductId = document.getElementById('product-info').dataset.id;
+
+//       // Find the current product in the products array
+//       let currIndex;
+//       products.forEach((product, i) => {
+//         if (product._id === currProductId) {
+//           currIndex = i;
+//         }
+//       });
+
+//       // Extract the price, change, and volume values for all products
+//       const productNames = products.map(product => product.name);
+//       const prices = products.map(product => product.price);
+
+//       // Create the price chart data
+//       const priceData = {
+//         labels: productNames,
+//         datasets: [
+//           {
+//             label: 'Prices',
+//             data: prices,
+//             borderColor: 'rgba(255, 99, 132, 1)',
+//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//             fill: false
+//           }
+//         ]
+//       };
+
+
+      
+
+//       // Create the chart configuration for each chart
+//       const config = {
+//         type: 'line',
+//         data: priceData,
+//         options: {
+//           responsive: true,
+//           scales: {
+//             y: {
+//               beginAtZero: true
+//             }
+//           }
+//         }
+//       };
+
+//       // Create the price chart
+//       const priceCtx = document.getElementById('priceChart').getContext('2d');
+//       const priceChart = new Chart(priceCtx, config);
+
+//       // Update the chart configuration for the change chart
+//     })
+//     .catch(error => {
+//       console.error('Error fetching product data:', error);
+//     });
+// });
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
-    // Get the canvas element
-    const canvas = document.getElementById("myChart");
-  
-    // Create the chart
-    const ctx = canvas.getContext("2d");
-    const myChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
+  // Fetch product data
+  fetch('/products/all')
+    .then(response => response.json())
+    .then(data => {
+      const products = data.products;
+      const currProductId = document.getElementById('product-info').dataset.id;
+
+      // Find the current product in the products array
+      let currIndex;
+      products.forEach((product, i) => {
+        if (product._id === currProductId) {
+          currIndex = i;
+        }
+      });
+
+      // Extract the price, change, and volume values for all products
+      const productNames = products.map(product => product.name);
+      const prices = products.map(product => product.price);
+      const changes = products.map(product => product.change);
+      const volumes = products.map(product => product.volume);
+
+      // Create the price chart data
+      const priceData = {
+        labels: productNames,
         datasets: [
           {
-            label: "7D chart",
-            data: [30, 20, 25, 15, 10, 12,2],
-            borderColor: "red",
-            borderWidth: 2,
+            label: 'Prices',
+            data: prices,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
             fill: false,
-          },
-        ],
-      },
-      options: {
-        responsive: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
+            pointBackgroundColor: productNames.map((name, i) => (i === currIndex ? 'yellow' : 'rgba(255, 99, 132, 1)')),
+            pointRadius: 4
+          }
+        ]
+      };
+
+      // Create the change chart data
+      const changeData = {
+        labels: productNames,
+        datasets: [
+          {
+            label: 'Changes',
+            data: changes,
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            fill: false,
+            pointBackgroundColor: productNames.map((name, i) => (i === currIndex ? 'yellow' : 'rgba(54, 162, 235, 0.5)')),
+            pointRadius: 4
+          }
+        ]
+      };
+
+      // Create the volume chart data
+      const volumeData = {
+        labels: productNames,
+        datasets: [
+          {
+            label: 'Volumes',
+            data: volumes,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            fill: false,
+            pointBackgroundColor: productNames.map((name, i) => (i === currIndex ? 'yellow' : 'rgba(75, 192, 192, 0.5)')),
+            pointRadius: 4
+          }
+        ]
+      };
+
+      // Create the chart configuration for each chart
+      const config1 = {
+        type: 'line',
+        data: priceData,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+      const config2 = {
+        type: 'line',
+        data: changeData,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+      const config3 = {
+        type: 'line',
+        data: volumeData,
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+
+      // Create the price chart
+      const priceCtx = document.getElementById('priceChart').getContext('2d');
+      const priceChart = new Chart(priceCtx, config1);
+
+      // Update the chart configuration for the change chart
+
+      // Create the change chart
+      const changeCtx = document.getElementById('changeChart').getContext('2d');
+      const changeChart = new Chart(changeCtx, config2);
+
+      // Update the chart configuration for the volume chart
+
+      // Create the volume chart
+      const volumeCtx = document.getElementById('volumeChart').getContext('2d');
+      const volumeChart = new Chart(volumeCtx, config3);
+    })
+    .catch(error => {
+      console.error('Error fetching product data:', error);
     });
-  });
-  
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

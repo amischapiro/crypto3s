@@ -175,6 +175,19 @@ router.put('/:productId', async (req, res) => {
       res.sendStatus(500);
     }
   });
+
+
+  router.get('/all', (req, res) => {
+    Product.find({})
+      .then(products => {
+        res.json({ products });
+      })
+      .catch(error => {
+        console.error('Error fetching product data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      });
+  });
+  
   
   
 

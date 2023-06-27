@@ -1,8 +1,17 @@
 .content{
     color:white
 }
-#myChart{
-    background-color: white;
-    width: 50%;
-    height: auto;
+.chart-container{
+    display: flex;
+    align-self: center;
+    width: 30%;
+    justify-content: space-between;
 }
+canvas{
+    background-color: white;
+    border: gray 5px solid;
+    margin: 10px;
+}
+
+
+  
