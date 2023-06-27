@@ -7,12 +7,12 @@
           <li><a id="logo-a" href="/"><img src="/img/cryptlogo.png"  class="logo"></a></li>
           <li><a href="/">Home</a></li>
           <li><a href="/products">Products</a></li>
-          <li><a href="/users">Users</a></li>
+          <li id="userli"><a href="/users">Users</a></li>
           <li><a href="/cart">Cart</a></li>
           <li><a href="/order-history">Order History</a></li>
         </div>
         <div class="nav-logout">
-          <a href=""><img src="/img/user.png" id="userimg"></a>
+          <img src="/img/user.png" id="userimg">
           <li id="username-container"></li>
           <li><a href="/logout">Logout</a></li>
         </div>
@@ -21,15 +21,25 @@
   </nav>
   <script>
   const cookies = document.cookie
-  let k;
-  for(let i =0;i<cookies.length;i++){
+    let k;
+   for(let i =0;i<cookies.length;i++){
     if(cookies[i]=='='){
       k=i;
     }
-  }
-  let curr = cookies.slice(k+1,cookies.length)
-  var usernameContainer = document.getElementById('username-container');
-  usernameContainer.innerText = curr;
-
+   }
+    let curr = cookies.slice(k+1,cookies.length,)
+    var usernameContainer = document.getElementById('username-container');
+    var userli = document.getElementById('userli');
+    usernameContainer.innerText = curr;
+    let ifAdmin = false;
+    if(curr=='admin'){
+      ifAdmin= true
+    }
+    else{
+      userli.style.display = "none";
+    }
+    if(!curr){
+      res.send('<h1>you must log in to visit this site</h1>')
+    }
   </script>
 </header>
