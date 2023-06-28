@@ -25,11 +25,8 @@ th, td {
 
 }
 
-th {
-    background-color: #DDE6ED;
-}
 td{
-    color: #DDE6ED;
+    /* color: #DDE6ED; */
     text-align: center;
 }
 td img{
@@ -38,10 +35,17 @@ td img{
 }
 tr{
     background-color: #526D82;
-
+    color:#DDE6ED ;
+    
 }
 tr:hover {
-    background-color: #27374D;
+    background-color: #9DB2BF;
+    color: #27374D;
+}
+th {
+    background-color: #DDE6ED;
+    color: #27374D;
+    text-align: center;
 }
 .top-coins{
     text-align: center;

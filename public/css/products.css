@@ -22,7 +22,9 @@ table {
     background-color:#526D82 ;
   }
   tr:hover{
-    background-color:#27374D ;
+    /* background-color:#27374D ; */
+    background-color: #9DB2BF;
+    color: #27374D;
   }
   input[type="number"]{
     width: 2rem;
