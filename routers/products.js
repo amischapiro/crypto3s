@@ -9,6 +9,8 @@ const User = require('../models/user')
 const Order = require('../models/order')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
+const multer = require('multer'); // For handling multipart/form-data (file uploads)
+const upload = multer({ dest: 'uploads/' });
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
@@ -40,7 +42,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/', async (req, res) => {
-    const { name, description, symbol, price, change, volume } = req.body;
+    const { img,name, description, symbol, price, change, volume } = req.body;
   
     try {
       const existingProduct = await Product.findOne({ name: name });
@@ -50,6 +52,7 @@ router.post('/', async (req, res) => {
       }
   
       const newProduct = new Product({
+        img:img,
         name: name,
         description: description,
         symbol: symbol,
@@ -146,7 +149,7 @@ router.get('/search', (req, res) => {
 
 router.put('/:productId', async (req, res) => {
     const productId = req.params.productId;
-    const { name, description, symbol, price, change, volume } = req.body;
+    const { img,name, description, symbol, price, change, volume } = req.body;
   
     try {
       const existingProduct = await Product.findOne({ name: name });
@@ -156,6 +159,7 @@ router.put('/:productId', async (req, res) => {
       }
   
       const updatedProduct = await Product.findByIdAndUpdate(productId, {
+        img:img,
         name: name,
         description: description,
         symbol: symbol,
@@ -189,6 +193,8 @@ router.put('/:productId', async (req, res) => {
   });
   
   
+
+
   
 
 module.exports = router;

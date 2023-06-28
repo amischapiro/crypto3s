@@ -1,7 +1,9 @@
 
-
+let selectedImg = false;
+let isNewImg =0;
 
 var newProduct = {
+  img:"",
   name:"",
   description:"",
   symbol:"",
@@ -10,6 +12,7 @@ var newProduct = {
   volume:"",
 };
 var updatedData = {
+  img:"",
   name:"",
   description:"",
   symbol:"",
@@ -82,7 +85,8 @@ function addToCart(productId,name) {
   }
   
   function saveNewItem() {
-    // Get the values from the input fields
+    isNewImg = 0;
+    var img = selectedImg;
     var name = document.getElementById("new-name").value;
     var description = document.getElementById("new-description").value;
     var symbol = document.getElementById("new-symbol").value;
@@ -120,7 +124,11 @@ function addToCart(productId,name) {
       console.error("Error: Price and volume must be positive numbers.");
       return;
     }
+    if(!img ||img==-1){
+      img = 'dollar.png'
+    }
 
+    newProduct.img = img
     newProduct.name = name
     newProduct.description = description
     newProduct.symbol = symbol
@@ -215,7 +223,9 @@ function sortProducts() {
 }
 
   function editItem(productId) {
+    isNewImg = 1
     // Get the row elements to be edited
+    var imgElement = document.getElementById("img-"+productId);
     var nameElement = document.getElementById("name-" + productId);
     var descriptionElement = document.getElementById("description-" + productId);
     var symbolElement = document.getElementById("symbol-" + productId);
@@ -225,6 +235,7 @@ function sortProducts() {
   
     // Get the current values
     
+    var img = imgElement.dataset.img
     var name = nameElement.innerText;
     var description = descriptionElement.innerText;
     var symbol = symbolElement.innerText;
@@ -233,6 +244,8 @@ function sortProducts() {
     var volume = volumeElement.dataset.volume;
   
     // Replace the elements with input fields containing the current values
+
+    imgElement.innerHTML = `<button onclick='showImages()'>Choose Image</button><span class='chosen-img'><img src="/coin-img/${img}" alt=""></img></span>`
     nameElement.innerHTML = "<input type='text' id='edit-name-" + productId + "' value='" + name + "'>";
     descriptionElement.innerHTML = "<input type='text' id='edit-description-" + productId + "' value='" + description + "'>";
     symbolElement.innerHTML = "<input type='text' id='edit-symbol-" + productId + "' value='" + symbol + "'>";
@@ -249,6 +262,7 @@ function sortProducts() {
     var saveBtn = document.getElementById(`save-${productId}`)
     saveBtn.style.display = 'none'
     // Get the edited values
+    var newImg =  selectedImg
     var newName = document.getElementById("edit-name-" + productId).value;
     var newDescription = document.getElementById("edit-description-" + productId).value;
     var newSymbol = document.getElementById("edit-symbol-" + productId).value;
@@ -292,10 +306,13 @@ function sortProducts() {
       return;
     }
   
+    if(!newImg){
+      newImg = 'dollar.png'
+    }
   
   
-  
-        updatedData = {
+      updatedData = {
+      img:newImg,
       name: newName,
       description: newDescription,
       symbol: newSymbol,
@@ -335,4 +352,20 @@ function sortProducts() {
     const errorMsg = document.getElementById('error-msg')
     errorMsg.innerText = ""
     errorModal.style.display = 'none'
+  }
+
+
+  function showImages(){
+    const images = document.getElementById('images-container')
+    images.style.display ='grid'
+
+  }
+
+  function selectImage(img,num){
+    const images = document.getElementById('images-container')
+    images.style.display ='none'
+    selectedImg = img;    
+    const chosen = document.querySelectorAll('.chosen-img')
+    console.log('isNewImg:', isNewImg);
+    chosen[isNewImg].innerHTML = `<img src="/coin-img/${selectedImg}" alt=""></img>`
   }

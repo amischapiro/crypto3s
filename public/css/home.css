@@ -26,10 +26,10 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #DDE6ED;
 }
 td{
-    color: black;
+    color: #DDE6ED;
     text-align: center;
 }
 td img{
@@ -37,24 +37,16 @@ td img{
     height: auto;
 }
 tr{
-    background-color: turquoise;
+    background-color: #526D82;
 
 }
 tr:hover {
-    background-color: cornflowerblue;
-}
-.welcome-title{
-    text-align: left;
-    text-transform: capitalize;
-    margin-top: 0;
-    font-family:cursive;
-    font-size: 2rem;
-    color:turquoise;
+    background-color: #27374D;
 }
 .top-coins{
     text-align: center;
     text-decoration: underline;
-    color: white;
+    color:#27374D;
 }
 
 #btc-change{
@@ -102,7 +94,7 @@ tr:hover {
   }
 
   form{
-    background-color: lightskyblue;
+    background-color: #27374D;
     width: 50%;
     height: 150px;
     margin: auto;
@@ -111,12 +103,14 @@ tr:hover {
     align-items: center;
     margin-top: 2rem;
     padding: 10px;
+    border-radius: 5px;
   }
   form h4{
     text-decoration: underline;
     font-size: 1.2rem;
     margin: 0;
     margin-bottom: 5px;
+    color: #DDE6ED;
   }
   #fb-msg{
     height: 60%;
@@ -132,8 +126,28 @@ tr:hover {
     align-items: center;
   }
   .fb-head img{
-    width: 1.5rem;
+    width: 1.4rem;
     height: auto;
     margin-left: 5px;
   }
 
+  .fb-modal{
+    position: fixed;
+    height: 20%;
+    width: 30%;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #DDE6ED;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #27374D;
+    display: none;
+
+  }

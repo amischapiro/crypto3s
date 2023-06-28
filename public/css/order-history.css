@@ -2,9 +2,13 @@
 
 .content {
     
-    color: white;
+    color: #27374D;
+    text-align: center;
 }
 
+h1{
+  text-decoration: underline;
+}
 .total-amount{
     font-size: larger;
     font-weight: bold;
@@ -12,9 +16,11 @@
   
 
 .order-table {
-    width: 100%;
+    width: 60%;
     border-collapse: collapse;
+    margin: auto;
     margin-bottom: 20px;
+    border: 3px solid #DDE6ED;
   }
   
   .order-table th,
@@ -35,3 +41,9 @@
     margin-top: 10px;
   }
   
+  .line{
+    background-color: #DDE6ED;
+    width: 60%;
+    height: 5px;
+    margin: auto;
+  }

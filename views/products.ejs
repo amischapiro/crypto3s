@@ -42,6 +42,22 @@
         <button onclick="exitModal()">x</button>
         <p id="error-msg"></p>
       </div>
+
+
+      <div id="images-container">
+        <img onclick="selectImage('3coins.png')" src="/coin-img/3coins.png" alt="">
+        <img onclick="selectImage('bitcoin-black.png')" src="/coin-img/bitcoin-black.png" alt="">
+        <img onclick="selectImage('bitcoin-yellow.png')" src="/coin-img/bitcoin-yellow.png" alt="">
+        <img onclick="selectImage('d.png')" src="/coin-img/d.png" alt="">
+        <img onclick="selectImage('dollar.png')" src="/coin-img/dollar.png" alt="">
+        <img onclick="selectImage('ethereum.png')" src="/coin-img/ethereum.png" alt="">
+        <img onclick="selectImage('type1.png')" src="/coin-img/type1.png" alt="">
+        <img onclick="selectImage('type2.png')" src="/coin-img/type2.png" alt="">
+        <img onclick="selectImage('type3.png')" src="/coin-img/type3.png" alt="">
+      </div>
+
+
+
       <% if (ifAdmin) { %>
         <div id="newcoin">
         <button id="addnew" onclick="addNewCoin()" >ADD NEW COIN</button>
@@ -51,6 +67,7 @@
           <table id="product-table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Symbol</th>
@@ -60,6 +77,9 @@
                 <th>Add/Info</th>
               </tr>
               <tr id="new-coin-row">
+                <td>
+                  <button onclick="showImages()">Choose Image</button><span class="chosen-img"></span>  
+                </td>
                 <td><input type="text" placeholder="Insert new name" required id="new-name"></td>
                 <td><input type="text" placeholder="Insert new description" required id="new-description"></td>
                 <td><input type="text" placeholder="Insert new symbol" required id="new-symbol"></td>
@@ -73,6 +93,7 @@
             <tbody>
               <% products.forEach((product) => { %>
                 <tr>
+                  <td id="img-<%=product._id%>" data-img="<%=product.img %>"><img src="/coin-img/<%= product.img %>" alt="coin-img"></td>
                   <td id="name-<%=product._id%>"><%= product.name %></td>
                   <td id="description-<%=product._id%>"><%= product.description %></td>
                   <td id="symbol-<%=product._id%>"><%= product.symbol %></td>
@@ -81,7 +102,7 @@
                     <% if (product.change < 0) { %>
                       <span style="color: red;"><%= product.change %>%</span>
                     <% } else { %>
-                      <span style="color: green;">+<%= product.change %>%</span>
+                      <span style="color: greenyellow;">+<%= product.change %>%</span>
                     <% } %>
                   </td>
                   <td id="volume-<%=product._id%>" data-volume="<%=product.volume %>">$<%= parseInt(product.volume).toLocaleString() %></td>

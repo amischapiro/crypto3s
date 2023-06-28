@@ -113,7 +113,7 @@ function deleteItem(element,index) {
             const modal = document.getElementById('checkoutModal')
             modal.style.display = 'none'
             window.location.href = '/order-history';
-          }, 2000);
+          }, 1300);
         } else {
           throw new Error('Error creating order');
         }

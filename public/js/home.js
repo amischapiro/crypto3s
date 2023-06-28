@@ -39,7 +39,7 @@ function updateTableData(coinData) {
     // Update change percentage and color
     const changeElement = $('#' + coinSymbol + '-change');
     if (coinChange > 0) {
-      changeElement.css('color', 'green');
+      changeElement.css('color', 'greenyellow');
       changeElement.text('+' + coinChange + '%');
     } else {
       changeElement.css('color', 'red');
@@ -84,11 +84,24 @@ function createTextPost() {
       if (data.success) {
         console.log('Text post created successfully!');
         console.log('Post ID:', data.postId);
+        fbModal(true)
       } else {
         console.log('Error creating text post:', data.error);
+        fbModal(false)
       }
     })
     .catch(error => {
       console.log('An error occurred:', error.message);
+      fbModal(false)
     });
+}
+
+function fbModal(success){
+  const modal = document.getElementById('fb-modal-text')
+  modal.innerText = success? 'Your post was created successfully':'Error: Something went wrong with your facebook post'
+  modal.style.color = success?'black':'red'
+  modal.style.display = 'block'
+  setTimeout(() => {
+    modal.style.display = 'none'
+  }, 1500);
 }

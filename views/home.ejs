@@ -107,11 +107,14 @@
               <%if(ifAdmin){%>
               <form onsubmit="createTextPost()">
                 <div class="fb-head">
-                  <h4>Create a Facebook post</h4><img src="img/icons8-facebook-50.png" alt="">
+                  <h4>Create a Facebook post</h4><img src="/img/facebook (3).png" alt="">
                 </div>
                 <textarea  id="fb-msg" cols="30" rows="10" placeholder="Enter post text here..." required autocomplete="off"></textarea>
                 <button>POST</button>
               </form>
+              <div class="fb-modal">
+                <p id="fb-modal-text"></p>
+              </div>
               <%}%>
               <div class="video-container">
                 <video controls autoplay loop id="video">
