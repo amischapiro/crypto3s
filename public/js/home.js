@@ -20,7 +20,6 @@ function updateTableData(coinData) {
     let coinSymbol = coin.symbol;
     let coinPrice = coin.rate
     let imageUrl = coin.image;
-    console.log('imageUrl:', imageUrl);
     
     if(coin.rate<1){
       coinPrice = parseFloat(coin.rate).toFixed(8)
@@ -105,3 +104,7 @@ function fbModal(success){
     modal.style.display = 'none'
   }, 1500);
 }
+
+
+
+
