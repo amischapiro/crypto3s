@@ -172,9 +172,9 @@ function addToCart(productId,name) {
     const tableRows = document.querySelectorAll('#product-table tbody tr');
   
     tableRows.forEach(row => {
-      const name = row.querySelector('td:first-child').innerText.toLowerCase();
-      const description = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
-      const symbol = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+      const name = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+      const description = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+      const symbol = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
   
       let filterValue = '';
       if (filterOption === 'name') {

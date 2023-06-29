@@ -20,6 +20,7 @@ mongoose.connect(mongoKey)
   console.log("no connection",err);
 })
 
+
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));

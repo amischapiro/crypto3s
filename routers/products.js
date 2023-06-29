@@ -9,8 +9,6 @@ const User = require('../models/user')
 const Order = require('../models/order')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
-const multer = require('multer'); // For handling multipart/form-data (file uploads)
-const upload = multer({ dest: 'uploads/' });
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));

@@ -137,6 +137,9 @@ table {
     width: 30%;
     height: 2rem;
     font-size: 1.5rem;
+    border-radius: 15px;
+    border: none;
+    padding: 3px;
   }
   .top-container{
     margin-bottom: 2rem;

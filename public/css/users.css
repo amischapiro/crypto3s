@@ -1,15 +1,17 @@
 
 table {
     border-collapse: collapse;
-    width: 50%;
+    width: 60%;
     margin: auto;
     border: gray 3px solid;
+    margin-top: 2rem;
   }
   
   th, td {
     border: 1px solid black;
     padding: 8px;
     text-align: left;
+    font-size: 1.5rem;
   }
   
   th {
@@ -29,7 +31,15 @@ table {
     width: 20px;
   }
 td img{
-    width: 10px;
+    width: 1.5rem;
     height: auto;
     cursor: pointer;
+}
+#search-inputuser{
+    width: 20%;
+    height: 2rem;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    border: none;
+    padding: 3px;
 }
