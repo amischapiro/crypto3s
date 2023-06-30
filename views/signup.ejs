@@ -4,6 +4,13 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/signup.css">
     <title><%= title %></title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -22,6 +29,7 @@
 
             <label for="verify-password">Verify Password:</label>
             <input type="password" id="verify-password" name="verify-password" autocomplete="off" required>
+            <div id="password-error" class="error-message"></div>
 
             <button type="submit">Sign Up</button>
         </form>
@@ -32,9 +40,10 @@
         function validatePasswords() {
             var password = document.getElementById("password").value;
             var verifyPassword = document.getElementById("verify-password").value;
+            var errorDiv = document.getElementById("password-error");
 
             if (password !== verifyPassword) {
-                alert("Passwords do not match. Please enter the same password in both fields.");
+                errorDiv.textContent = "Passwords don't match";
                 return false; // Prevent form submission
             }
 
