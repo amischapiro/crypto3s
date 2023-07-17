@@ -13,6 +13,7 @@
     <div class="main-container">
         <%- include('partials/header') %>
         <div class="content">
+          <button onclick="toProducts()">🔙</button>
             <div data-id="<%=product._id%>" class="product-info" id="product-info">
                 <h2><%= product.name %></h2>
                 <p>Description: <%= product.description %></p>

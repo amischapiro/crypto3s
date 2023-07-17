@@ -21,8 +21,7 @@ table {
   tr{
     background-color:#526D82 ;
   }
-  tr:hover{
-    /* background-color:#27374D ; */
+  tr:hover:not(#new-coin-row){
     background-color: #9DB2BF;
     color: #27374D;
   }

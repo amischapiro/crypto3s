@@ -12,6 +12,9 @@ canvas{
     border: gray 5px solid;
     margin: 10px;
 }
+button{
+    cursor: pointer;
+}
 
 
   

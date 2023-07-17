@@ -51,11 +51,9 @@ function addToCart(productId,name) {
   function addModal(name){
     const modal = document.getElementById('addModal')
     const modalCoin = document.getElementById('addModal-coin')
-    // modal.style.display = 'block'
     modalCoin.innerText = 'Coin '+name;
     modal.classList.add('show');
     setTimeout(() => {
-      // modal.style.display = 'none'
       modal.classList.remove('show');
     }, 2000);
   }
