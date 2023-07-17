@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
      min-height: 91.6vh;
-     /* min-height should be dynamic */
+     
   }
 
   
@@ -14,7 +14,7 @@
     padding: 20px;
   }
   .cart-items {
-    max-height: calc(100% - 60px); /* Subtract height of cart-summary */
+    max-height: calc(100% - 60px); 
     overflow-y: auto;
   }
   

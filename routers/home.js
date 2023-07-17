@@ -71,7 +71,7 @@ router.get('/', (req, res) => {
       router.post('/create-post', async (req, res) => {
         const pageAccessToken = config.FBkey;
         const pageId = '112159501922363';
-        const message = req.body.message; // Assuming the client sends the message in the request body
+        const message = req.body.message; 
       
         try {
           const url = `https://graph.facebook.com/${pageId}/feed`;
