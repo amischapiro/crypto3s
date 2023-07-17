@@ -11,10 +11,7 @@ table {
     margin: auto;
     font-size: larger;
     border: 3px solid gray;
-    /* background-image:url('/img/pexels-worldspectrum-844124.jpg') ;
-    background-size: cover; */
-    /* border-radius: 10px;
-    overflow: hidden; */
+    
 }
 
 th, td {
@@ -26,7 +23,7 @@ th, td {
 }
 
 td{
-    /* color: #DDE6ED; */
+    
     text-align: center;
 }
 td img{

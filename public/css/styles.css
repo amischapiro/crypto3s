@@ -13,8 +13,6 @@ html, body {
   .content {
     flex: 1;
     padding: 1rem;
-    /* background-image: url('/img/abstract-futuristic-background-with-3d-design.jpg'); */
-    /* background-size: cover; */
     background-color:#9DB2BF ;
   }
   
