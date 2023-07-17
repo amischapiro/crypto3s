@@ -12,7 +12,9 @@ canvas{
     border: gray 5px solid;
     margin: 10px;
 }
-button{
+#back-button img{
+    height: auto;
+    width: 2rem;
     cursor: pointer;
 }
 
